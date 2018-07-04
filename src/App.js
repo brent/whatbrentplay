@@ -1,18 +1,49 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { db } from './firebase';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { reviews: [] };
+  }
+
+  componentDidMount() {
+    db.collection('reviews')
+      .get()
+      .then((querySnapshot) => {
+        let docs = [];
+
+        querySnapshot.forEach((doc) => {
+          let docData = doc.data();
+          docData["id"] = doc.id;
+
+          docs.push(docData);
+        });
+
+        return docs;
+      }).then((docs) => {
+        this.setState({
+          reviews: docs
+        });
+      });
+  }
+
   render() {
+    const reviews = this.state.reviews.map((review) => 
+      <li key={review.id}>
+        <h2>{review.game.name}</h2>
+        <p>{review.summary}</p>
+      </li>
+    );
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <h1>byte sized reviews</h1>
+        <ul>
+          {reviews}
+        </ul>
       </div>
     );
   }
