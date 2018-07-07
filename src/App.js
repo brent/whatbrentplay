@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { db } from './firebase';
+import Review from './Models/Review';
 
 class App extends Component {
   constructor(props) {
@@ -10,22 +10,10 @@ class App extends Component {
   }
 
   componentDidMount() {
-    db.collection('reviews')
-      .get()
-      .then((querySnapshot) => {
-        let docs = [];
-
-        querySnapshot.forEach((doc) => {
-          let docData = doc.data();
-          docData["id"] = doc.id;
-
-          docs.push(docData);
-        });
-
-        return docs;
-      }).then((docs) => {
+    Review.getAll()
+      .then((reviews) => {
         this.setState({
-          reviews: docs
+          reviews: reviews
         });
       });
   }
@@ -34,6 +22,7 @@ class App extends Component {
     const reviews = this.state.reviews.map((review) => 
       <li key={review.id}>
         <h2>{review.game.name}</h2>
+        <h3>{review.rating.totalScore}</h3>
         <p>{review.summary}</p>
       </li>
     );
