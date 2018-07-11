@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Review from '../Models/Review';
+import ReviewModel from '../Models/Review';
+import Review from './Review';
 
 class Reviews extends Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class Reviews extends Component {
   }
 
   componentDidMount() {
-    Review.getAll()
+    ReviewModel.getAll()
       .then((reviews) => {
         this.setState({
           reviews: reviews
@@ -25,9 +26,7 @@ class Reviews extends Component {
           {
             this.state.reviews.map((review) => (
               <li key={review.id}>
-                <h2>{review.game.name}</h2>
-                <h3>{review.rating.totalScore}</h3>
-                <p>{review.summary}</p>
+                <Review review={review} />
               </li>
             ))
           }
