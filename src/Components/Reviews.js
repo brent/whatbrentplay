@@ -21,7 +21,6 @@ class Reviews extends Component {
   render() {
     return(
       <div>
-        <h2>Reviews</h2>
         <ul>
           {
             this.state.reviews.map((review) => (

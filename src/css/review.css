@@ -1,0 +1,200 @@
+.reviewWrapper {
+  margin-bottom: 4rem;
+}
+
+.reviewWrapper__game {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.gameMetaContainer {
+  margin-left: -1rem;
+  position: absolute;
+  top: 40%;
+}
+
+.gameMetaContainer--inner {
+  background: rgba(0, 0, 0, 0.75);
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+  display: table;
+  padding: 0.5rem 1rem;
+  width: auto;
+}
+
+.gameMetaContainer--inner:first-of-type {
+  margin-bottom: 1rem;
+}
+
+.gameMetaContainer__platforms {
+  color: #777;
+  font-weight: 400;
+}
+
+.gameMetaContainer__name {
+  font-size: 1.5rem;
+}
+
+.gameMetaContainer__name,
+.score__rating,
+.subCategoryContainer__categoryScore {
+  color: #fff;
+}
+
+.gameMetaContainer__coverArt {
+  border-radius: 0.5rem;
+  height: auto;
+  margin-bottom: 2rem;
+  margin: 0 auto;
+  max-height: 24.75rem;
+  max-width: 20rem;
+  overflow: hidden;
+}
+
+.gameMetaContainer__coverArt img {
+  height: 100%;
+  width: 100%;
+}
+
+.score__rating {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.score__total {
+  color: #777;
+}
+
+.reviewSeeAllCTA {
+  background: none;
+  border: 0.125rem solid #555;
+  border-radius: 0.25rem;
+  color: #777;
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  padding: 0.75rem 1rem;
+  margin: 0 auto;
+  max-width: 20rem;
+  width: 100%;
+}
+
+.reviewSeeAllCTA--hidden {
+  display: none;
+}
+
+.reviewSummaryContainer {
+  margin-bottom: 2rem;
+}
+
+.subCategoryContainer {
+  margin-bottom: 2rem;
+}
+
+.subCategoryContainer__scoreSummary {
+  font-size: 1.125rem;
+}
+
+.subCategoryList {
+}
+
+.subCategoryList--hidden {
+  display: none;
+}
+
+.subCategoryList__heading,
+.reviewSummaryContainer__heading,
+.gameMetaContainer__platforms {
+  color: #777;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.subCategoryList__heading,
+.reviewSummaryContainer__heading {
+  margin-bottom: 0.5rem;
+}
+
+.subCategoryContainer {
+  display: grid;
+  grid-column-gap: 0.25rem;
+  grid: 2rem auto / 1fr 3fr;
+}
+
+.subCategoryContainer__categoryScore,
+.subCategoryContainer__categoryName {
+  color: #fff;
+}
+
+.subCategoryContainer__categoryScore {
+  font-size: 3rem;
+  grid-column: 1 / 1;
+  margin-top: -0.5rem;
+}
+
+.subCategoryContainer__categoryName {
+  grid-column: col2-start / end;
+  grid-row: span 1;
+}
+
+.subCategoryContainer__scoreSummary {
+  font-size: 1rem;
+  font-weight: 400;
+  grid-column: col2-start / end;
+  grid-row: row2-start / row2-end;
+}
+
+@media (max-width: 320px) {
+  .reviewSummaryContainer__title,
+  .reviewSummaryContainer__summary,
+  .subCategoryList__heading,
+  .subCategoryContainer__categoryName {
+    font-size: 1rem;
+  }
+
+  .subCategoryContainer__categoryScore {
+    font-size: 2rem;
+    margin-top: -0.25rem;
+  }
+
+  .subCategoryContainer__scoreSummary {
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 480px) {
+  .gameMetaContainer--inner {
+    border-radius: 0.25rem;
+  }
+
+  .gameMetaContainer {
+    left: 50%;
+    margin-left: 0;
+    max-width: 80%;
+    transform: translateX(-50%);
+    width: 100%;
+  }
+
+  .gameMetaContainer > div,
+  .reviewWrapper__game > div {
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 640px) {
+  .gameMetaContainer__name {
+    font-size: 2rem;
+  }
+
+  .gameMetaContainer {
+    top: 33%;
+  }
+
+  .reviewSummaryContainer__summary {
+    font-size: 1.375rem;
+  }
+
+  .subCategoryContainer__scoreSummary {
+    font-size: 1.25rem;
+  }
+}

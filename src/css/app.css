@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css?family=Libre+Franklin:400,500,700');
+
+.clearfix {
+  overflow: auto;
+}
+
+.clearFix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a,
+.appWrapper {
+  color: #aaa;
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+html,
+.appWrapper {
+  background: #333;
+}
+
+.appWrapper {
+  margin: 0 auto;
+  max-width: 40rem;
+  padding: 2rem 1rem 0;
+}
+
+.appLogoWrapper {
+  margin-bottom: 4rem;
+}
+
+.appLogo {
+  background: url('/img/wbs-logo.svg') no-repeat;
+  background-size: cover;
+  display: block;
+  height: 48px;
+  text-indent: -9999px;
+  width: 48px;
+}
