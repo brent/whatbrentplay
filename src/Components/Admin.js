@@ -50,8 +50,8 @@ class Admin extends Component {
 
   render = () => {
     return(
-      <div class="adminWrapper">
-        <h2 class="adminWrapper__heading">Admin</h2>
+      <div className="adminWrapper">
+        <h2 className="adminWrapper__heading">Admin</h2>
         {
           this.state.isLoggedIn 
             ? <AdminCreateReviewForm 
