@@ -12,6 +12,11 @@ import './css/reset.css';
 import './css/app.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    document.title = "byte sized reviews";
+  }
+
   render() {
     return (
       <Router>
