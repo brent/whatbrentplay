@@ -16,7 +16,7 @@
 
 .createReviewForm input,
 .createReviewForm textarea {
-  width: 100%;
+  width: 100% !important;
 }
 
 .createReviewForm__block textarea {
@@ -38,7 +38,7 @@
 }
 
 .scoreSection__category {
-  padding-bottom: 3rem;
+  padding-bottom: 4rem;
   margin-bottom: 3rem;
   border-bottom: 0.125rem solid #444;
 }
