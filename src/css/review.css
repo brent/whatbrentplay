@@ -61,22 +61,7 @@
   font-weight: 700;
 }
 
-.score__total {
-  color: #777;
-}
-
 .reviewSeeAllCTA {
-  background: none;
-  border: 0.125rem solid #555;
-  border-radius: 0.25rem;
-  color: #777;
-  display: block;
-  font-size: 1rem;
-  font-weight: 400;
-  padding: 0.75rem 1rem;
-  margin: 0 auto;
-  max-width: 20rem;
-  width: 100%;
 }
 
 .reviewSeeAllCTA--hidden {
@@ -102,10 +87,19 @@
   display: none;
 }
 
+.gameMetaContainer__platforms,
+.score__total {
+  color: #999;
+}
+
+.subCategoryList__heading,
+.reviewSummaryContainer__heading {
+  color: #777;
+}
+
 .subCategoryList__heading,
 .reviewSummaryContainer__heading,
 .gameMetaContainer__platforms {
-  color: #777;
   font-size: 1rem;
   font-weight: 400;
 }
@@ -113,6 +107,7 @@
 .subCategoryList__heading,
 .reviewSummaryContainer__heading {
   margin-bottom: 0.5rem;
+  letter-spacing: 0.125rem;
 }
 
 .subCategoryContainer {

@@ -14,13 +14,13 @@
   margin-bottom: 1rem;
 }
 
-input {
+.adminWrapper input {
   height: 3rem;
   width: 20rem;
 }
 
-input,
-textarea {
+.adminWrapper input,
+.adminWrapper textarea {
   border-radius: 0.25rem;
   border: none;
   box-sizing: border-box;
@@ -29,12 +29,12 @@ textarea {
   padding: 0.5rem;
 }
 
-input::placeholder,
-textarea::placeholder {
+.adminWrapper input::placeholder,
+.adminWrapper textarea::placeholder {
   color: #ccc;
 }
 
-button {
+.admindWrapper button {
   background: none;
   border-radius: 0.25rem;
   border: 0.125rem solid #555;
