@@ -5,6 +5,8 @@ import Review from '../Models/Review';
 import AdminLogInForm from './AdminLogInForm';
 import AdminCreateReviewForm from './AdminCreateReviewForm';
 
+import '../css/admin.css';
+
 class Admin extends Component {
   constructor(props) {
     super(props);
@@ -48,8 +50,8 @@ class Admin extends Component {
 
   render = () => {
     return(
-      <div>
-        <h2>Admin</h2>
+      <div class="adminWrapper">
+        <h2 class="adminWrapper__heading">Admin</h2>
         {
           this.state.isLoggedIn 
             ? <AdminCreateReviewForm 

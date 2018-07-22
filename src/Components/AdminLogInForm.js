@@ -1,17 +1,17 @@
 import React from 'react';
 
+import '../css/adminLogInForm.css';
+
 const AdminLogInForm = (props) => (
-  <form onSubmit={props.onSubmit}>
+  <form className="adminLogInForm" onSubmit={props.onSubmit}>
     <div>
-      <label for="username">username</label>
-      <input type="text" name="username" id="username" />
+      <input type="text" name="username" id="username" placeholder="username"/>
     </div>
     <div>
-      <label for="password">password</label>
-      <input type="password" name="password" id="password" />
+      <input type="password" name="password" id="password" placeholder="password" />
     </div>
     <div>
-      <button type="submit">submit</button>
+      <button type="submit">Log in</button>
     </div>
   </form>
 )

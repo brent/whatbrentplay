@@ -1,0 +1,44 @@
+.createReviewForm {
+  font-weight: 500;
+  text-align: left;
+  padding-bottom: 2rem;
+}
+
+.createReviewForm__block {
+  margin-bottom: 2rem;
+}
+
+.createReviewForm__block label {
+  display: block;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.createReviewForm input,
+.createReviewForm textarea {
+  width: 100%;
+}
+
+.createReviewForm__block textarea {
+  min-height: 10rem;
+}
+
+.createReviewForm h3 {
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.createReviewForm h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.scoreSection__category {
+  padding-bottom: 3rem;
+  margin-bottom: 3rem;
+  border-bottom: 0.125rem solid #444;
+}
