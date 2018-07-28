@@ -65,19 +65,19 @@ class Review {
       return formData.platforms.value.split(" ");
     })();
 
-    const visualsScore = parseInt(formData.visualsScore.value, 10),
-          soundScore = parseInt(formData.soundScore.value, 10),
-          qualityScore = parseInt(formData.qualityScore.value, 10),
+    const visualScore = parseInt(formData.visualScore.value, 10),
+          audioScore = parseInt(formData.audioScore.value, 10),
           gameplayScore = parseInt(formData.gameplayScore.value, 10),
+          qualityScore = parseInt(formData.qualityScore.value, 10),
           experienceScore = parseInt(formData.experienceScore.value, 10);
 
     const totalScore = (() => {
       let totalScore = 0;
 
-      totalScore += visualsScore;
-      totalScore += soundScore;
-      totalScore += qualityScore;
+      totalScore += visualScore;
+      totalScore += audioScore;
       totalScore += gameplayScore;
+      totalScore += qualityScore;
       totalScore += experienceScore;
 
       return totalScore;
@@ -89,30 +89,41 @@ class Review {
         cover_url: formData.coverImgUrl.value,
         platforms: platforms,
       },
-      summary: formData.summary.value,
-      rating: {
-        totalScore: totalScore,
-        visuals: {
-          score: visualsScore,
-          summary: formData.visualsSummary.value,
+      summary: {
+        blurb: formData.blurb.value,
+        pros:  formData.pros.value,
+        cons:  formData.cons.value,
+      },
+      rating: [
+        {
+          category: "visual",
+          score: visualScore,
+          summary: formData.visualSummary.value,
         },
-        sound: {
-          score: soundScore,
-          summary: formData.soundSummary.value,
+        {
+          category: "audio",
+          score: audioScore,
+          summary: formData.audioSummary.value,
         },
-        quality: {
-          score: qualityScore,
-          summary: formData.qualitySummary.value,
-        },
-        gameplay: {
+        {
+          category: "gameplay",
           score: gameplayScore,
           summary: formData.gameplaySummary.value,
         },
-        experience: {
+        {
+          category: "quality",
+          score: qualityScore,
+          summary: formData.qualitySummary.value,
+        },
+        {
+          category: "experience",
           score: experienceScore,
           summary: formData.experienceSummary.value,
         },
-      },
+        { 
+          totalScore: totalScore,
+        },
+      ],
     }
 
     return review;
