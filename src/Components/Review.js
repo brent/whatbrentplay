@@ -9,6 +9,9 @@ class Review extends Component {
     this.state = {
       truncated: true,
     }
+
+    this.summaryProsPrefix = "Buy if";
+    this.summaryConsPrefix = "Avoid if";
   }
 
   handleClick = (event) => {
@@ -20,21 +23,46 @@ class Review extends Component {
   renderSubcategories = (review) => {
     let categories = [];
 
-    for (let category in review.rating) {
-      if (category !== "totalScore") {
+    review.rating.forEach((section) => {
+      if (section.category) {
         categories.push(
-          <li className="subCategoryContainer" key={category}>
-            <p className="subCategoryContainer__categoryScore">{review.rating[category].score}</p>
+          <li className="subCategoryContainer" key={ section.category }>
+            <p className="subCategoryContainer__categoryScore">{ section.score }</p>
             <h4 className="subCategoryContainer__categoryName">{
-              category.charAt(0).toUpperCase() + category.slice(1)
+              section.category.charAt(0).toUpperCase() + section.category.slice(1)
             }</h4>
-            <p className="subCategoryContainer__scoreSummary">{review.rating[category].summary}</p>
+            <p className="subCategoryContainer__scoreSummary">{ section.summary }</p>
           </li>
         )
       }
+    });
+
+    return categories;
+  }
+
+  formatSummaryProsOrCons = (summaryProsOrCons) => {
+    let searchTerm;
+
+    if (summaryProsOrCons.includes(this.summaryProsPrefix)) {
+      searchTerm = this.summaryProsPrefix;
+    } else if (summaryProsOrCons.includes(this.summaryConsPrefix)) {
+      searchTerm = this.summaryConsPrefix;
+    } else {
+      searchTerm = null;
     }
 
-    return categories.reverse();
+    if (searchTerm) {
+      const prefix = summaryProsOrCons.slice(0, searchTerm.length);
+      const rest = summaryProsOrCons.slice(searchTerm.length + 1);
+
+      return(
+        <span className="summaryProsOrCons">
+          <span className="summaryProsOrCons__prefix">{ prefix }&hellip;</span><span className="summaryProsOrCons__rest">{ rest }</span>
+        </span>
+      )
+    } else {
+      return summaryProsOrCons;
+    }
   }
 
   render() {
@@ -45,14 +73,14 @@ class Review extends Component {
 
           <div className="gameMetaContainer">
             <div className="gameMetaContainer--inner">
-              <h3 className="gameMetaContainer__platforms">{this.props.review.game.platforms.join(", ")}</h3>
-              <h2 className="gameMetaContainer__name">{this.props.review.game.name}</h2>
+              <h3 className="gameMetaContainer__platforms">{ this.props.review.game.platforms.join(", ")}</h3>
+              <h2 className="gameMetaContainer__name">{ this.props.review.game.name }</h2>
             </div>
 
             <div className="gameMetaContainer--inner">
               <h3 className="gameMetaContainer__score">
                 <span className="score__rating">
-                  {this.props.review.rating.totalScore}
+                  { this.props.review.rating[this.props.review.rating.length - 1].totalScore }
                 </span>
                 <span className="score__total"> / 25</span>
               </h3>
@@ -60,13 +88,15 @@ class Review extends Component {
           </div>
 
           <div className="gameMetaContainer__coverArt">
-            <img src={this.props.review.game.cover_url} alt="{this.props.review.game.name} cover art" />
+            <img src={ this.props.review.game.cover_url } alt="{ this.props.review.game.name } cover art" />
           </div>
         </div>
 
         <div className="reviewSummaryContainer">
           <h4 className="reviewSummaryContainer__heading">Summary</h4>
-          <p className="reviewSummaryContainer__summary">{this.props.review.summary}</p>
+          <p className="reviewSummaryContainer__blurb">{ this.props.review.summary.blurb }</p>
+          <p className="reviewSummaryContainer__pros">{ this.formatSummaryProsOrCons(this.props.review.summary.pros) }</p>
+          <p className="reviewSummaryContainer__cons">{ this.formatSummaryProsOrCons(this.props.review.summary.cons) }</p>
         </div>
 
         <button className={
@@ -74,7 +104,7 @@ class Review extends Component {
             ? 'reviewSeeAllCTA'
             : 'reviewSeeAllCTA reviewSeeAllCTA--hidden'
             
-        } onClick={this.handleClick}>
+        } onClick={ this.handleClick }>
           Full breakdown
         </button>
 

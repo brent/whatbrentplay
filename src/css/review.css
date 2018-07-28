@@ -10,7 +10,7 @@
 .gameMetaContainer {
   margin-left: -1rem;
   position: absolute;
-  top: 40%;
+  bottom: 2rem;
 }
 
 .gameMetaContainer--inner {
@@ -68,12 +68,22 @@
   display: none;
 }
 
-.reviewSummaryContainer {
-  margin-bottom: 2rem;
+.reviewSummaryContainer,
+.reviewSummaryContainer > p {
+  margin-bottom: 3rem;
+}
+
+.summaryProsOrCons,
+.summaryProsOrCons > span {
+  display: block;
+}
+
+.summaryProsOrCons__rest {
+  padding-left: 1rem;
 }
 
 .subCategoryContainer {
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
 }
 
 .subCategoryContainer__scoreSummary {
@@ -93,19 +103,22 @@
 }
 
 .subCategoryList__heading,
-.reviewSummaryContainer__heading {
+.reviewSummaryContainer__heading,
+.summaryProsOrCons__prefix {
   color: #777;
 }
 
 .subCategoryList__heading,
 .reviewSummaryContainer__heading,
-.gameMetaContainer__platforms {
-  font-size: 1rem;
-  font-weight: 400;
+.gameMetaContainer__platforms,
+.summaryProsOrCons__prefix {
+  font-size: 1.125rem;
+  font-weight: 700;
 }
 
 .subCategoryList__heading,
-.reviewSummaryContainer__heading {
+.reviewSummaryContainer__heading,
+.summaryProsOrCons__prefix {
   margin-bottom: 0.5rem;
   letter-spacing: 0.125rem;
 }
@@ -141,7 +154,8 @@
 
 @media (max-width: 320px) {
   .reviewSummaryContainer__title,
-  .reviewSummaryContainer__summary,
+  .reviewSummaryContainer__blurb,
+  .summaryProsOrCons,
   .subCategoryList__heading,
   .subCategoryContainer__categoryName {
     font-size: 1rem;
@@ -182,14 +196,14 @@
   }
 
   .gameMetaContainer {
-    top: 33%;
   }
 
-  .reviewSummaryContainer__summary {
+  .reviewSummaryContainer__blurb,
+  .summaryProsOrCons {
     font-size: 1.375rem;
   }
 
   .subCategoryContainer__scoreSummary {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
   }
 }
