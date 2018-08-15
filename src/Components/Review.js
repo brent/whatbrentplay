@@ -93,7 +93,7 @@ class Review extends Component {
         </div>
 
         <div className="reviewSummaryContainer">
-          <h4 className="reviewSummaryContainer__heading">Summary</h4>
+          <h4 className="reviewSummaryContainer__heading reviewSeeAllCTA--hidden">Summary</h4>
           <p className="reviewSummaryContainer__blurb">{ this.props.review.summary.blurb }</p>
           <p className="reviewSummaryContainer__pros">{ this.formatSummaryProsOrCons(this.props.review.summary.pros) }</p>
           <p className="reviewSummaryContainer__cons">{ this.formatSummaryProsOrCons(this.props.review.summary.cons) }</p>

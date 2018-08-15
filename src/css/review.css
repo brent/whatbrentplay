@@ -81,6 +81,12 @@
 .summaryProsOrCons__rest {
 }
 
+.reviewSummaryContainer__blurb {
+  font-family: Merriweather, serif;
+  font-size: 1.5rem;
+  hyphens: auto;
+}
+
 .subCategoryContainer {
   margin-bottom: 3rem;
 }
@@ -197,7 +203,11 @@
   .gameMetaContainer {
   }
 
-  .reviewSummaryContainer__blurb,
+  .reviewSummaryContainer__blurb {
+    font-size: 2rem;
+    hyphens: none;
+  }
+
   .summaryProsOrCons {
     font-size: 1.375rem;
   }
