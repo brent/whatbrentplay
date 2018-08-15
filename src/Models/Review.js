@@ -62,7 +62,14 @@ class Review {
 
   static build(formData) {
     const platforms = (() => {
-      return formData.platforms.value.split(" ");
+      let splitPlatformString = formData.platforms.value.split(",");
+      let platformArray = [];
+
+      splitPlatformString.forEach((platform) => {
+        platformArray.push(platform.trim());
+      });
+
+      return platformArray;
     })();
 
     const visualScore = parseInt(formData.visualScore.value, 10),
