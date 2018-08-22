@@ -52,8 +52,9 @@
 }
 
 .gameMetaContainer__coverArt img {
-  height: 100%;
-  width: 100%;
+  display: block;
+  height: auto;
+  max-width: 100%;
 }
 
 .score__rating {
