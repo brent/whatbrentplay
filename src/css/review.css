@@ -69,6 +69,7 @@
   display: none;
 }
 
+.reviewWrapper__game,
 .reviewSummaryContainer,
 .reviewSummaryContainer > p {
   margin-bottom: 3rem;

@@ -21,10 +21,10 @@ class Reviews extends Component {
   render() {
     return(
       <div>
-        <ul>
+        <ul class="reviews">
           {
             this.state.reviews.map((review) => (
-              <li key={review.id}>
+              <li key={review.id} class="review">
                 <Review review={review} />
               </li>
             ))
