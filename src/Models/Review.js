@@ -9,11 +9,13 @@ class Review {
     this.game = reviewData.game;
     this.rating = reviewData.rating;
     this.summary = reviewData.summary;
+    this.createdAt = reviewData.createdAt;
   }
 
   static getAll() {
     return new Promise((resolve, reject) => {
       db.collection('reviews')
+        .orderBy('createdAt', 'desc')
         .get()
         .then((querySnapshot) => {
           let reviews = [];
@@ -91,6 +93,7 @@ class Review {
     })();
 
     let review = {
+      createdAt: Date.now(),
       game: {
         name: formData.gameName.value,
         cover_url: formData.coverImgUrl.value,
