@@ -3,12 +3,14 @@ import React from 'react';
 import '../css/adminCreateReviewForm.css';
 
 const AdminCreateReviewForm = (props) => (
-  <form className="createReviewForm" onSubmit={props.onSubmit}>
+  <form className="createReviewForm" onSubmit={ props.onSubmit }>
     <section className="gameMeta">
       <h3>Info</h3>
       <div className="createReviewForm__block">
         <label htmlFor="gameName">Game name</label>
-        <input type="text" name="gameName" id="gameName" placeholder="Lorem Ipsum: Sit Dolor Amet III" />
+        <input type="text" name="gameName" id="gameName" placeholder="Lorem Ipsum: Sit Dolor Amet III" onBlur={ props.onBlur } />
+        <input type="hidden" name="slug" id="slug" value={ props.slug } />
+        <p><span>slug: </span>{ props.slug }</p>
       </div>
 
       <div className="createReviewForm__block">
