@@ -8,9 +8,9 @@ const AdminCreateReviewForm = (props) => (
       <h3>Info</h3>
       <div className="createReviewForm__block">
         <label htmlFor="gameName">Game name</label>
-        <input onBlur={ props.onBlur } type="text" name="gameName" id="gameName" placeholder="Lorem Ipsum: Sit Dolor Amet III" />
-        <p><span>slug: </span>{ props.slug }</p>
+        <input type="text" name="gameName" id="gameName" placeholder="Lorem Ipsum: Sit Dolor Amet III" onBlur={ props.onBlur } />
         <input type="hidden" name="slug" id="slug" value={ props.slug } />
+        <p><span>slug: </span>{ props.slug }</p>
       </div>
 
       <div className="createReviewForm__block">

@@ -49,9 +49,9 @@ class Admin extends Component {
   }
 
   handleGameNameBlur = (e) => {
-    const gameTitle = e.target.value;
-    const regex = /([a-zA-z0-9?']*)[\s\W]{1,2}/gi;
-    const parts = gameTitle.split(regex);
+    const gameTitle = e.target.value,
+          regex = /([a-zA-z0-9?']*)[\s\W]{1,2}/gi,
+          parts = gameTitle.split(regex);
 
     let sanitizedParts = [];
     parts.forEach((part) => {
