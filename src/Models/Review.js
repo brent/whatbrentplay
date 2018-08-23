@@ -104,6 +104,7 @@ class Review {
     })();
 
     let review = {
+      slug: formData.slug.value,
       createdAt: Date.now(),
       game: {
         name: formData.gameName.value,

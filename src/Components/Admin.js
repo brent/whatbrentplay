@@ -48,6 +48,26 @@ class Admin extends Component {
     e.target.reset();
   }
 
+  handleGameNameBlur = (e) => {
+    const gameTitle = e.target.value;
+    const regex = /([a-zA-z0-9?']*)[\s\W]{1,2}/gi;
+    const parts = gameTitle.split(regex);
+
+    let sanitizedParts = [];
+    parts.forEach((part) => {
+      if (part.length != 0) {
+        part = part.replace('\'', '');
+        sanitizedParts.push(part.toLowerCase());
+      }
+    });
+
+    const slug = sanitizedParts.join("-");
+
+    this.setState({
+      slug: slug,
+    });
+  }
+
   render = () => {
     return(
       <div className="adminWrapper">
@@ -55,7 +75,9 @@ class Admin extends Component {
         {
           this.state.isLoggedIn 
             ? <AdminCreateReviewForm 
-                onSubmit={this.handleAdminCreateReviewFormSubmit} 
+                onSubmit={ this.handleAdminCreateReviewFormSubmit } 
+                onBlur={ this.handleGameNameBlur }
+                slug={ this.state.slug }
               />
             : <AdminLogInForm 
                 onSubmit={this.handleAdminLogInSubmit}
