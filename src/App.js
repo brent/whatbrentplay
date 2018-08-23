@@ -5,8 +5,9 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import Reviews from './Components/Reviews';
 import Admin from './Components/Admin';
+import Reviews from './Components/Reviews';
+import ReviewDetail from './Components/ReviewDetail';
 
 import './css/reset.css';
 import './css/app.css';
@@ -29,6 +30,7 @@ class App extends Component {
 
           <Switch>
             <Route path="/admin" component={Admin} />
+            <Route path="/:slug" component={ReviewDetail} />
             <Route path="/" component={Reviews} />
           </Switch>
         </div>

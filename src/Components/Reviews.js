@@ -19,12 +19,12 @@ class Reviews extends Component {
   }
 
   render() {
-    return(
+    return (
       <div>
-        <ul class="reviews">
+        <ul className="reviews">
           {
             this.state.reviews.map((review) => (
-              <li key={review.id} class="review">
+              <li key={review.id} className="review">
                 <Review review={review} />
               </li>
             ))
