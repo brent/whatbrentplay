@@ -3,14 +3,16 @@
 }
 
 .reviewWrapper__game {
-  position: relative;
+  display: block;
   margin-bottom: 2rem;
+  position: relative;
+  text-decoration: none;
 }
 
 .gameMetaContainer {
+  bottom: 2rem;
   margin-left: -1rem;
   position: absolute;
-  bottom: 2rem;
 }
 
 .gameMetaContainer--inner {

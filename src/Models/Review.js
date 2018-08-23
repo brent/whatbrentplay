@@ -5,11 +5,23 @@ class Review {
     const id = firebaseDoc.id;
     const reviewData = firebaseDoc.data();
 
-    this.id = id;
-    this.game = reviewData.game;
-    this.rating = reviewData.rating;
-    this.summary = reviewData.summary;
-    this.createdAt = reviewData.createdAt;
+    this.id         = id;
+    this.game       = reviewData.game;
+    this.rating     = reviewData.rating;
+    this.summary    = reviewData.summary;
+    this.createdAt  = reviewData.createdAt;
+    this.slug       = reviewData.slug;
+  }
+
+  static _getReviews(querySnapshot) {
+    let docs = [];
+
+    querySnapshot.forEach((doc) => {
+      let review = new Review(doc);
+      docs.push(review);
+    });
+
+    return docs;
   }
 
   static getAll() {
@@ -18,14 +30,7 @@ class Review {
         .orderBy('createdAt', 'desc')
         .get()
         .then((querySnapshot) => {
-          let reviews = [];
-
-          querySnapshot.forEach((doc) => {
-            let review = new Review(doc);
-            reviews.push(review);
-          });
-
-          return reviews;
+          return this._getReviews(querySnapshot);
         }).then((reviews) => {
           resolve(reviews);
         }).catch((err) => {
@@ -34,14 +39,20 @@ class Review {
     });
   }
 
-  static getOne(id) {
+  static getOneBySlug(slug) {
     return new Promise((resolve, reject) => {
       db.collection('reviews')
-        .doc(id)
+        .where("slug", "==", slug)
         .get()
-        .then((doc) => {
-          return new Review(doc);
-        }).then((review) => {
+        .then((querySnapshot) => {
+          const reviews = this._getReviews(querySnapshot);
+          return reviews;
+        })
+        .then((reviews) => {
+          const review = reviews[0];
+          return review;
+        })
+        .then((review) => {
           resolve(review);
         }).catch((err) => {
           reject(err);
@@ -74,10 +85,10 @@ class Review {
       return platformArray;
     })();
 
-    const visualScore = parseInt(formData.visualScore.value, 10),
-          audioScore = parseInt(formData.audioScore.value, 10),
-          gameplayScore = parseInt(formData.gameplayScore.value, 10),
-          qualityScore = parseInt(formData.qualityScore.value, 10),
+    const visualScore     = parseInt(formData.visualScore.value, 10),
+          audioScore      = parseInt(formData.audioScore.value, 10),
+          gameplayScore   = parseInt(formData.gameplayScore.value, 10),
+          qualityScore    = parseInt(formData.qualityScore.value, 10),
           experienceScore = parseInt(formData.experienceScore.value, 10);
 
     const totalScore = (() => {

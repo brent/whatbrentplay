@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import '../css/review.css';
 
@@ -14,7 +15,7 @@ class Review extends Component {
     this.summaryConsPrefix = "Avoid if";
   }
 
-  handleClick = (event) => {
+  handlePrimaryCTAClick = (event) => {
     this.setState({
       truncated: !this.state.truncated,
     });
@@ -68,9 +69,11 @@ class Review extends Component {
   render() {
     return(
       <div className="reviewWrapper">
-
-        <div className="reviewWrapper__game">
-
+        <Link
+          to={ `/${this.props.review.slug}` }
+          className="reviewWrapper__game"
+          onClick={ this.handlePrimaryCTAClick }
+        >
           <div className="gameMetaContainer">
             <div className="gameMetaContainer--inner">
               <h3 className="gameMetaContainer__platforms">{ this.props.review.game.platforms.join(", ")}</h3>
@@ -90,7 +93,7 @@ class Review extends Component {
           <div className="gameMetaContainer__coverArt">
             <img src={ this.props.review.game.cover_url } alt="{ this.props.review.game.name } cover art" />
           </div>
-        </div>
+        </Link>
 
         <div className="reviewSummaryContainer">
           <h4 className="reviewSummaryContainer__heading reviewSeeAllCTA--hidden">Summary</h4>
@@ -104,7 +107,7 @@ class Review extends Component {
             ? 'reviewSeeAllCTA'
             : 'reviewSeeAllCTA reviewSeeAllCTA--hidden'
             
-        } onClick={ this.handleClick }>
+        } onClick={ this.handlePrimaryCTAClick }>
           Full breakdown
         </button>
 
