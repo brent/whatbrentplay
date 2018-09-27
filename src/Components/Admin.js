@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import Review from '../Models/Review';
 
+import AdminIndex from './AdminIndex';
 import AdminLogInForm from './AdminLogInForm';
 import AdminCreateReviewForm from './AdminCreateReviewForm';
 import AdminFeedbackBanner from './AdminFeedbackBanner';
@@ -90,11 +91,14 @@ class Admin extends Component {
         <h2 className="adminWrapper__heading">Admin</h2>
         {
           this.state.isLoggedIn 
+            /*
             ? <AdminCreateReviewForm 
                 onSubmit={ this.handleAdminCreateReviewFormSubmit } 
                 onBlur={ this.handleGameNameBlur }
                 slug={ this.state.slug }
               />
+            */
+            ? <AdminIndex />
             : <AdminLogInForm 
                 onSubmit={this.handleAdminLogInSubmit}
               /> 
