@@ -1,0 +1,33 @@
+@keyframes notification {
+  0% { bottom: -100px; }
+  5% { bottom: 0; }
+  95% { bottom: 0; }
+  100% { bottom: -100px; }
+}
+
+.adminFeedbackBanner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  animation-name: notification;
+  animation-duration: 8s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  opacity: 0.9;
+}
+
+.adminFeedbackBanner p {
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  padding: 0.5rem 0;
+}
+
+.adminFeedbackBanner .success {
+  background: green;
+}
+
+.adminFeedbackBanner .error {
+  background: red;
+}

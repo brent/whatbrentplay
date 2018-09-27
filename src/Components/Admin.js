@@ -4,6 +4,7 @@ import Review from '../Models/Review';
 
 import AdminLogInForm from './AdminLogInForm';
 import AdminCreateReviewForm from './AdminCreateReviewForm';
+import AdminFeedbackBanner from './AdminFeedbackBanner';
 
 import '../css/admin.css';
 
@@ -39,8 +40,10 @@ class Admin extends Component {
     Review.create(review)
       .then((doc) => {
         console.log('saved doc: ', doc);
+        this.displayPostFeedback(true);
       }).catch((err) => {
         console.log(err);
+        this.displayPostFeedback(false);
       });
 
     // this should be in the above .then() block
@@ -55,7 +58,7 @@ class Admin extends Component {
 
     let sanitizedParts = [];
     parts.forEach((part) => {
-      if (part.length != 0) {
+      if (part.length !== 0) {
         part = part.replace('\'', '');
         sanitizedParts.push(part.toLowerCase());
       }
@@ -68,9 +71,22 @@ class Admin extends Component {
     });
   }
 
+  displayPostFeedback = (success) => {
+    this.setState({
+      submitResult: {
+        success: success,
+      },
+    });
+  }
+
   render = () => {
     return(
       <div className="adminWrapper">
+        {
+          this.state.submitResult
+            ? <AdminFeedbackBanner success={ this.state.submitResult.success } />
+            : null
+        }
         <h2 className="adminWrapper__heading">Admin</h2>
         {
           this.state.isLoggedIn 
