@@ -13,6 +13,18 @@ class Review {
     this.slug       = reviewData.slug;
   }
 
+  static new(...props) {
+    if (props) {
+      props.forEach((prop) => {
+        this.prop = prop;
+      });
+    } else {
+      this.game = "Game Title";
+      this.rating = 0;
+      this.summary = "Lorem ipsum dolor sit amet";
+    }
+  }
+
   static _getReviews(querySnapshot) {
     let docs = [];
 

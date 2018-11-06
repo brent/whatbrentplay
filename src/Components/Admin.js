@@ -36,6 +36,8 @@ class Admin extends Component {
   handleAdminCreateReviewFormSubmit = (e) => {
     e.preventDefault();
 
+    console.log(e.target);
+    /*
     let review = Review.build(e.target);
 
     Review.create(review)
@@ -45,31 +47,14 @@ class Admin extends Component {
       }).catch((err) => {
         console.log(err);
         this.displayPostFeedback(false);
+      }).finally(() => {
+        this.displayPostFeedback(false);
       });
 
     // this should be in the above .then() block
     // figure out why it wasn't working there
     e.target.reset();
-  }
-
-  handleGameNameBlur = (e) => {
-    const gameTitle = e.target.value,
-          regex = /([a-zA-z0-9?']*)[\s\W]{1,2}/gi,
-          parts = gameTitle.split(regex);
-
-    let sanitizedParts = [];
-    parts.forEach((part) => {
-      if (part.length !== 0) {
-        part = part.replace('\'', '');
-        sanitizedParts.push(part.toLowerCase());
-      }
-    });
-
-    const slug = sanitizedParts.join("-");
-
-    this.setState({
-      slug: slug,
-    });
+      */
   }
 
   displayPostFeedback = (success) => {
@@ -80,7 +65,7 @@ class Admin extends Component {
     });
   }
 
-  render = () => {
+  render() {
     return(
       <div className="adminWrapper">
         {
@@ -91,16 +76,11 @@ class Admin extends Component {
         <h2 className="adminWrapper__heading">Admin</h2>
         {
           this.state.isLoggedIn 
-            /*
-            ? <AdminCreateReviewForm 
-                onSubmit={ this.handleAdminCreateReviewFormSubmit } 
-                onBlur={ this.handleGameNameBlur }
-                slug={ this.state.slug }
+            ? <AdminIndex 
+                onSubmit={ this.handleAdminCreateReviewFormSubmit }
               />
-            */
-            ? <AdminIndex />
             : <AdminLogInForm 
-                onSubmit={this.handleAdminLogInSubmit}
+                onSubmit={ this.handleAdminLogInSubmit }
               /> 
         }
       </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import ReviewModel from '../Models/Review';
 import Review from './Review';
@@ -40,7 +41,10 @@ class AdminIndex extends React.Component {
           {
             this.state.reviews.map((review) => (
               <li key={ review.id }>
-                <h3>{ review.game.name }</h3>
+                <Link to={{ 
+                  pathname: `/admin/review/${review.slug}`,
+                  state: { review: review }
+                }}>{ review.game.name }</Link>
                 <p>{ review.rating[review.rating.length - 1].totalScore }</p>
                 <p>{ this.displayDate(review.createdAt) }</p>
               </li>
