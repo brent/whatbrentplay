@@ -38,15 +38,12 @@ class AdminIndex extends React.Component {
   // COMPONENTS (Admin, AdminCreateReviewForm)
 
   // from Admin
-  handleAdminCreateReviewFormSubmit = (e) => {
+  handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log('uh... hello?');
     console.log(e.target);
-    let form = e.target;
-    let data = new FormData(form);
-    console.log(data.get('game.name'));
-    //let review = Review.build(e.target);
+
+    // let review = Review.build(e.target);
 
     /*
     Review.getOneBySlug(review.slug)
@@ -72,9 +69,14 @@ class AdminIndex extends React.Component {
 
   // from AdminCreateReviewForm
   handleChange = (e) => {
+    console.log(e.target);
     const parts = e.target.name.split(".");
     const newVal = e.target.value;
 
+    console.log(parts);
+    console.log(newVal);
+
+    /*
     if (parts.length > 1) {
       this.setState((prevState, props) => ({
         review: {
@@ -93,6 +95,7 @@ class AdminIndex extends React.Component {
         },
       }), () => { console.log(this.state) });
     }
+    */
   }
 
   render() {
@@ -106,7 +109,8 @@ class AdminIndex extends React.Component {
                 <Link to={{ 
                   pathname: `/admin/review/${review.slug}`,
                   state: { review: review },
-                  handleSubmit: this.props.handleSubmit
+                  handleSubmit: this.handleSubmit,
+                  handleChange: this.handleChange
                 }}>{ review.game.name }</Link>
                 <p>{ review.rating[review.rating.length - 1].totalScore }</p>
                 <p>{ this.displayDate(review.createdAt) }</p>

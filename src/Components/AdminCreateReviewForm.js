@@ -7,6 +7,9 @@ class AdminCreateReviewForm extends React.Component {
   constructor(props) {
     super(props);
 
+    this.handleSubmit = props.location.handleSubmit;
+    this.handleChange = props.location.handleChange;
+
     if (props.location.state) {
       console.log(props);
       this.state = {
@@ -118,7 +121,7 @@ class AdminCreateReviewForm extends React.Component {
 
   render() {
     return(
-      <form className="createReviewForm" onSubmit={ this.props.location.handleSubmit }>
+      <form className="createReviewForm" onSubmit={ this.handleSubmit }>
         <section className="gameMeta">
           <h3>Info</h3>
           <div className="createReviewForm__block">
