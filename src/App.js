@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom';
 
 import Admin from './Components/Admin';
+import AdminIndex from './Components/AdminIndex';
 import AdminCreateReviewForm from './Components/AdminCreateReviewForm';
 import Reviews from './Components/Reviews';
 import ReviewDetail from './Components/ReviewDetail';
@@ -30,11 +31,12 @@ class App extends Component {
           </h1>
 
           <Switch>
-            <Route path="/admin/review/:slug" component={AdminCreateReviewForm} />
-            <Route path="/admin/review/new" component={AdminCreateReviewForm} />
-            <Route path="/admin" component={Admin} />
-            <Route path="/:slug" component={ReviewDetail} />
-            <Route path="/" component={Reviews} />
+            <Route path="/admin/review/:slug" component={ AdminCreateReviewForm } />
+            <Route path="/admin/review/new" component={ AdminCreateReviewForm } />
+            <Route path="/admin/index" component={ AdminIndex } />
+            <Route path="/admin" component={ Admin } />
+            <Route path="/:slug" component={ ReviewDetail } />
+            <Route path="/" component={ Reviews } />
           </Switch>
         </div>
       </Router>

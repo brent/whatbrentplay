@@ -85,6 +85,21 @@ class Review {
     });
   }
 
+  static update(doc) {
+    return new Promise((resolve, reject) => {
+      db.collection('reviews')
+        .doc(doc.id)
+        /*
+        .set({
+          ...doc,
+        })
+        */
+        .get()
+        .then((doc) => resolve(doc))
+        .catch((err) => reject(err));
+    });
+  }
+
   static build(formData) {
     const platforms = (() => {
       let splitPlatformString = formData.platforms.value.split(",");

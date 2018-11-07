@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import Review from '../Models/Review';
 
@@ -33,30 +34,6 @@ class Admin extends Component {
     }
   }
 
-  handleAdminCreateReviewFormSubmit = (e) => {
-    e.preventDefault();
-
-    console.log(e.target);
-    /*
-    let review = Review.build(e.target);
-
-    Review.create(review)
-      .then((doc) => {
-        console.log('saved doc: ', doc);
-        this.displayPostFeedback(true);
-      }).catch((err) => {
-        console.log(err);
-        this.displayPostFeedback(false);
-      }).finally(() => {
-        this.displayPostFeedback(false);
-      });
-
-    // this should be in the above .then() block
-    // figure out why it wasn't working there
-    e.target.reset();
-      */
-  }
-
   displayPostFeedback = (success) => {
     this.setState({
       submitResult: {
@@ -76,9 +53,7 @@ class Admin extends Component {
         <h2 className="adminWrapper__heading">Admin</h2>
         {
           this.state.isLoggedIn 
-            ? <AdminIndex 
-                onSubmit={ this.handleAdminCreateReviewFormSubmit }
-              />
+            ? <Redirect to='/admin/index' />
             : <AdminLogInForm 
                 onSubmit={ this.handleAdminLogInSubmit }
               /> 

@@ -7,7 +7,8 @@ class AdminCreateReviewForm extends React.Component {
   constructor(props) {
     super(props);
 
-    if (props) {
+    if (props.location.state) {
+      console.log(props);
       this.state = {
         review: {
           ...props.location.state.review,
@@ -37,30 +38,6 @@ class AdminCreateReviewForm extends React.Component {
       };
     }
     console.log('initial state', this.state);
-  }
-
-  handleChange = (e) => {
-    const parts = e.target.name.split(".");
-    const newVal = e.target.value;
-
-    if (parts.length > 1) {
-      this.setState((prevState, props) => ({
-        review: {
-          ...prevState.review,
-          [parts[0]]: {
-            ...prevState.review[parts[0]],
-            [parts[1]]: newVal,
-          },
-        },
-      }), () => { console.log(this.state) });
-    } else {
-      this.setState((prevState, props) => ({
-        review: {
-          ...prevState.review,
-          [parts[0]]: newVal,
-        },
-      }), () => { console.log(this.state) });
-    }
   }
 
   getIndexForCategory = (categoryName) => {
@@ -135,13 +112,13 @@ class AdminCreateReviewForm extends React.Component {
   }
 
   displayCTA() {
-    const ctaLabel = this.slug ? "Edit" : "Post";
-    return <button type="submit">{ctaLabel} review</button>
+    const ctaLabel = this.state.review.id ? "Edit" : "Post";
+    return <button>{ctaLabel} review</button>;
   }
 
   render() {
     return(
-      <form className="createReviewForm" onSubmit={ this.props.onSubmit }>
+      <form className="createReviewForm" onSubmit={ this.props.location.handleSubmit }>
         <section className="gameMeta">
           <h3>Info</h3>
           <div className="createReviewForm__block">
