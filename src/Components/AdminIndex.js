@@ -22,7 +22,7 @@ class AdminIndex extends React.Component {
       });
   }
 
-  displayDate(date) {
+  displayDate = (date) => {
     const dateObj = new Date(date);
 
     const month = dateObj.getMonth() + 1;
@@ -33,69 +33,99 @@ class AdminIndex extends React.Component {
     return formattedDate;
   }
 
-  // MAKE THE EVENT HANDLERS BELOW WORK
-  // THEY'VE BEEN TRANSPLANTED FROM TWO DIFFERENT
-  // COMPONENTS (Admin, AdminCreateReviewForm)
+  generateSlug = (e) => {
+    const gameTitle = e.target.value,
+          regex = /([a-zA-z0-9?']*)[\s\W]{1,2}/gi,
+          parts = gameTitle.split(regex);
 
-  // from Admin
-  handleSubmit = (e) => {
-    e.preventDefault();
+    let sanitizedParts = [];
+    parts.forEach((part) => {
+      if (part.length !== 0) {
+        part = part.replace('\'', '');
+        sanitizedParts.push(part.toLowerCase());
+      }
+    });
 
-    console.log(e.target);
+    const slug = sanitizedParts.join("-");
 
-    // let review = Review.build(e.target);
-
-    /*
-    Review.getOneBySlug(review.slug)
-      .then(() => {
-        Review.update(review)
-          .then((result) => console.log(result));
-      })
-      .catch(() => {
-        console.log('review not found in db');
-      });
-    Review.create(review)
-      .then((doc) => {
-        console.log('saved doc: ', doc);
-        this.displayPostFeedback(true);
-      }).catch((err) => {
-        console.log(err);
-        this.displayPostFeedback(false);
-      }).finally(() => {
-        this.displayPostFeedback(false);
-      });
-    */
+    this.setState((prevState, props) => ({
+      ...prevState,
+      review: { slug: slug }
+    }));
   }
 
-  // from AdminCreateReviewForm
-  handleChange = (e) => {
-    console.log(e.target);
-    const parts = e.target.name.split(".");
+  handleSubmit = (review, e) => {
+    e.preventDefault();
+
+    this.getReviewIndex(review, this.state.reviews)
+      .then((reviewIndex) => {
+        return reviewIndex;
+      })
+      .then((index) => {
+        console.log(this.state.reviews[index]);
+
+        ReviewModel.update(this.state.reviews[index])
+          .then(doc => {
+            console.log(doc);
+          });
+      });
+  }
+
+  getReviewIndex = (review, arr) => {
+    return new Promise(resolve => {
+      arr.findIndex((el, i) => {
+        if (el.id == review.id) {
+          resolve(i);
+        }
+      });
+    });
+  }
+
+  getIndexForCategory = (categoryName) => {
+    let index;
+    switch (categoryName) {
+      case 'visual':
+        index = 0;
+        break;
+      case 'audio':
+        index = 1;
+        break;
+      case 'gameplay':
+        index = 2;
+        break;
+      case 'quality':
+        index = 3;
+        break;
+      case 'experience':
+        index = 4;
+        break;
+      default:
+        break;
+    }
+    return index;
+  }
+
+  handleSummaryChangeForReview = (review, e) => {
+    const [ key, val ] = e.target.name.split('.');
     const newVal = e.target.value;
 
-    console.log(parts);
-    console.log(newVal);
+    this.getReviewIndex(review, this.state.reviews)
+      .then((index) => {
+        this.state.reviews[index][key][val] = newVal;
+        console.log(this.state.reviews);
+      });
+  }
 
-    /*
-    if (parts.length > 1) {
-      this.setState((prevState, props) => ({
-        review: {
-          ...prevState.review,
-          [parts[0]]: {
-            ...prevState.review[parts[0]],
-            [parts[1]]: newVal,
-          },
-        },
-      }), () => { console.log(this.state) });
-    } else {
-      this.setState((prevState, props) => ({
-        review: {
-          ...prevState.review,
-          [parts[0]]: newVal,
-        },
-      }), () => { console.log(this.state) });
-    }
-    */
+  handleRatingChangeForReview = (review, e) => {
+    const [ key, val ] = e.target.name.split('.');
+    const newVal = e.target.value;
+
+    this.getReviewIndex(review, this.state.reviews)
+      .then(reviewIndex => {
+        const categoryIndex = this.getIndexForCategory(key);
+        this.state.reviews[reviewIndex]['rating'][categoryIndex][val] = newVal;
+        console.log(this.state.reviews);
+      });
   }
 
   render() {
@@ -110,7 +140,8 @@ class AdminIndex extends React.Component {
                   pathname: `/admin/review/${review.slug}`,
                   state: { review: review },
                   handleSubmit: this.handleSubmit,
-                  handleChange: this.handleChange
+                  handleSummaryChange: this.handleSummaryChangeForReview,
+                  handleRatingChange: this.handleRatingChangeForReview
                 }}>{ review.game.name }</Link>
                 <p>{ review.rating[review.rating.length - 1].totalScore }</p>
                 <p>{ this.displayDate(review.createdAt) }</p>
