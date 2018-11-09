@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import '../css/adminCreateReviewForm.css';
 
-class AdminCreateReviewForm extends React.Component {
+class AdminReviewForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -205,4 +205,4 @@ class AdminCreateReviewForm extends React.Component {
   }
 }
 
-export default AdminCreateReviewForm;
+export default AdminReviewForm;
