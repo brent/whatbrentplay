@@ -72,7 +72,6 @@ class Review extends Component {
         <Link
           to={ `/${this.props.review.slug}` }
           className="reviewWrapper__game"
-          onClick={ this.handlePrimaryCTAClick }
         >
           <div className="gameMetaContainer">
             <div className="gameMetaContainer--inner">
