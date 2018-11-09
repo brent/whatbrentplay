@@ -63,12 +63,7 @@ class AdminIndex extends React.Component {
           return reviewIndex;
         })
         .then((index) => {
-          console.log(this.state.reviews[index]);
-
-          ReviewModel.update(this.state.reviews[index])
-            .then(doc => {
-              console.log(doc);
-            });
+          ReviewModel.update(this.state.reviews[index]);
         })
         .catch(() => {
           console.log('catchin\'');
@@ -117,7 +112,6 @@ class AdminIndex extends React.Component {
     this.getReviewIndex(review, this.state.reviews)
       .then((index) => {
         this.state.reviews[index][key][val] = newVal;
-        console.log(this.state.reviews);
       });
   }
 
@@ -129,7 +123,6 @@ class AdminIndex extends React.Component {
       .then(reviewIndex => {
         const categoryIndex = this.getIndexForCategory(key);
         this.state.reviews[reviewIndex]['rating'][categoryIndex][val] = newVal;
-        console.log(this.state.reviews);
       });
   }
 
@@ -139,11 +132,10 @@ class AdminIndex extends React.Component {
         <h2>Reviews</h2>
         <Link to={{
           pathname: '/admin/review/new',
-            handleSubmit: this.handleSubmit,
-            handleSummaryChange: this.handleSummaryChangeForReview,
-            handleRatingChange: this.handleRatingChangeForReview
-          }}
-          className='newCta'>New review</Link>
+          handleSubmit: this.handleSubmit,
+          handleSummaryChange: this.handleSummaryChangeForReview,
+          handleRatingChange: this.handleRatingChangeForReview
+        }} className='newCta'>New review</Link>
         <ul>
           {
             this.state.reviews.map((review) => (

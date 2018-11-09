@@ -86,7 +86,6 @@ class Review {
   }
 
   static update(doc) {
-    console.log(doc);
     return new Promise((resolve, reject) => {
       db.collection('reviews')
         .doc(doc.id)
