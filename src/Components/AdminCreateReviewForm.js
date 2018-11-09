@@ -1,121 +1,208 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import '../css/adminCreateReviewForm.css';
 
-const AdminCreateReviewForm = (props) => (
-  <form className="createReviewForm" onSubmit={ props.onSubmit }>
-    <section className="gameMeta">
-      <h3>Info</h3>
-      <div className="createReviewForm__block">
-        <label htmlFor="gameName">Game name</label>
-        <input type="text" name="gameName" id="gameName" placeholder="Lorem Ipsum: Sit Dolor Amet III" onBlur={ props.onBlur } />
-        <input type="hidden" name="slug" id="slug" value={ props.slug } />
-        <p><span>slug: </span>{ props.slug }</p>
+class AdminReviewForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleSubmit = props.location.handleSubmit;
+    this.handleSummaryChange = props.location.handleSummaryChange;
+    this.handleRatingChange = props.location.handleRatingChange;
+
+    if (props.location.state) {
+      this.state = {
+        review: {
+          ...props.location.state.review,
+        },
+      }
+    } else {
+      this.state = { 
+        review: {
+          game: {
+            name: "Lorem Ipsum: Sit Dolor Amet III",
+            cover_url: "http://placehold.it/320x396",
+            platforms: "Hyper Game System",
+          },
+          rating: [
+            { score: 5, summary: "Be concise..."},
+            { score: 5, summary: "Be concise..."},
+            { score: 5, summary: "Be concise..."},
+            { score: 5, summary: "Be concise..."},
+            { score: 5, summary: "Be concise..."},
+          ],
+          summary: {
+            blurb: "",
+            pros: "",
+            cons: "",
+          },
+        }
+      };
+    }
+  }
+
+  displayCTA() {
+    const ctaLabel = this.state.review.id ? "Edit" : "Post";
+    return <button>{ctaLabel} review</button>;
+  }
+
+  render() {
+    return(
+      <div className="">
+        <Link to='/admin/index'>&larr; back to reviews</Link>
+        <form className="createReviewForm" onSubmit={ e => this.handleSubmit(this.state.review, e) }>
+          <section className="gameMeta">
+            <h3>Info</h3>
+            <div className="createReviewForm__block">
+              <label htmlFor="gameName">Game name</label>
+              <input type="text" name="game.name" id="gameName" 
+                placeholder={ this.state.review.game.name }
+                defaultValue={ this.state.review.game.name }
+                onChange={ e => this.handleSummaryChange(this.state.review, e) }
+              />
+              <input type="hidden" name="slug" id="slug" defaultValue={ this.state.review.slug } />
+              { this.state.review.slug
+                ? <p><span>slug: </span>{ this.state.review.slug }</p>
+                : null
+              }
+            </div>
+
+            <div className="createReviewForm__block">
+              <label htmlFor="coverImgUrl">Cover image url</label>
+              <input type="text" name="game.cover_url" id="coverImgUrl" 
+                placeholder={ this.state.review.game.cover_url }
+                defaultValue={ this.state.review.game.cover_url }
+                onChange={ e => this.handleSummaryChange(this.state.review, e) }
+              />
+            </div>
+
+            <div className="createReviewForm__block">
+              <label htmlFor="platforms">Platforms</label>
+              <input type="text" name="game.platforms" id="platforms"
+                placeholder={ this.state.review.game.platforms }
+                defaultValue={ this.state.review.game.platforms }
+                //onChange={ e => this.handleSummaryChange(this.state.review, e) }
+              />
+            </div>
+
+            <div className="createReviewForm__block">
+              <label htmlFor="blurb">Summary</label>
+              <textarea type="text" name="summary.blurb" id="blurb"
+                placeholder={ this.state.review.summary.blurb }
+                defaultValue={ this.state.review.summary.blurb ? this.state.review.summary.blurb : "" }
+                onChange={ e => this.handleSummaryChange(this.state.review, e) }
+              />
+            </div>
+
+            <div className="createReviewForm__block">
+              <label htmlFor="pros">Pros (Buy if)</label>
+              <textarea type="text" name="summary.pros" id="pros"
+                placeholder={ this.state.review.summary.pros }
+                defaultValue={ this.state.review.summary.pros ? this.state.review.summary.pros : "" }
+                onChange={ e => this.handleSummaryChange(this.state.review, e) }
+              />
+            </div>
+
+            <div className="createReviewForm__block">
+              <label htmlFor="cons">Cons (Avoid if)</label>
+              <textarea type="text" name="summary.cons" id="cons"
+                placeholder={ this.state.review.summary.cons }
+                defaultValue={ this.state.review.summary.cons ? this.state.review.summary.cons : "" }
+                onChange={ e => this.handleSummaryChange(this.state.review, e) }
+              />
+            </div>
+
+          </section>
+
+          <section className="scoreSection">
+            <h3 className="scoreSection__heading">Score</h3>
+            <div className="scoreSection__category">
+              <h4>Visual</h4>
+              <div className="createReviewForm__block">
+                <label htmlFor="visualScore">Score</label>
+                <input type="text" name="visual.score" id="visualScore"
+                  placeholder={ this.state.review.rating[0].score }
+                  defaultValue={ this.state.review.rating[0].score }
+                  onChange={ e => this.handleRatingChange(this.state.review, e) }
+                />
+              </div>
+              <div className="createReviewForm__block">
+                <label htmlFor="visualSummary">Summary</label>
+                <textarea name="visual.summary" id="visualSummary"
+                  placeholder={ this.state.review.rating[0].summary }
+                  defaultValue={ this.state.review.rating[0].summary }
+                  onChange={ e => this.handleRatingChange(this.state.review, e) }
+                />
+              </div>
+            </div>
+            <div className="scoreSection__category">
+              <h4>Audio</h4>
+              <div className="createReviewForm__block">
+                <label htmlFor="audioScore">Score</label>
+                <input type="text" name="audio.score" id="audioScore"
+                  placeholder={ this.state.review.rating[1].score }
+                  defaultValue={ this.state.review.rating[1].score }
+                  onChange={ e => this.handleRatingChange(this.state.review, e) }
+                />
+              </div>
+              <div className="createReviewForm__block">
+                <label htmlFor="audioSummary">Summary</label>
+                <textarea name="audio.summary" id="audioSummary"
+                  placeholder={ this.state.review.rating[1].summary }
+                  defaultValue={ this.state.review.rating[1].summary }
+                  onChange={ e => this.handleRatingChange(this.state.review, e) }
+                />
+              </div>
+            </div>
+            <div className="scoreSection__category">
+              <h4>Gameplay</h4>
+              <div className="createReviewForm__block">
+                <label htmlFor="gameplayScore">Score</label>
+                <input type="text" name="gameplay.score" id="gameplayScore"
+                  placeholder={ this.state.review.rating[2].score }
+                  defaultValue={ this.state.review.rating[2].score }
+                  onChange={ e => this.handleRatingChange(this.state.review, e) }
+                />
+              </div>
+              <div className="createReviewForm__block">
+                <label htmlFor="gameplaySummary">Summary</label>
+                <textarea name="gameplay.summary" id="gameplaySummary" 
+                  placeholder={ this.state.review.rating[2].summary }
+                  defaultValue={ this.state.review.rating[2].summary }
+                  onChange={ e => this.handleRatingChange(this.state.review, e) }
+                />
+              </div>
+            </div>
+            <div className="scoreSection__category">
+              <h4>Quality</h4>
+              <div className="createReviewForm__block">
+                <label htmlFor="qualityScore">Score</label>
+                <input type="text" name="quality.score" id="qualityScore" 
+                  placeholder={ this.state.review.rating[3].score }
+                  defaultValue={ this.state.review.rating[3].score }
+                  onChange={ e => this.handleRatingChange(this.state.review, e) }
+                />
+              </div>
+              <div className="createReviewForm__block">
+                <label htmlFor="qualitySummary">Summary</label>
+                <textarea name="quality.summary" id="qualitySummary"
+                  placeholder={ this.state.review.rating[3].summary }
+                  defaultValue={ this.state.review.rating[3].summary }
+                  onChange={ e => this.handleRatingChange(this.state.review, e) }
+                >
+                </textarea>
+              </div>
+            </div>
+          </section>
+
+          <div>
+            { this.displayCTA() }
+          </div>
+        </form>
       </div>
+    )
+  }
+}
 
-      <div className="createReviewForm__block">
-        <label htmlFor="coverImgUrl">Cover image url</label>
-        <input type="text" name="coverImgUrl" id="coverImgUrl" placeholder="http://placehold.it/320x396" />
-      </div>
-
-      <div className="createReviewForm__block">
-        <label htmlFor="platforms">Platforms</label>
-        <input type="text" name="platforms" id="platforms" placeholder="PlayStation 4" />
-      </div>
-
-      <div className="createReviewForm__block">
-        <label htmlFor="blurb">Summary</label>
-        <textarea type="text" name="blurb" id="blurb" placeholder="Be clear and concise">
-        </textarea>
-      </div>
-
-      <div className="createReviewForm__block">
-        <label htmlFor="pros">Pros (Buy if)</label>
-        <textarea type="text" name="pros" id="pros" placeholder="Be clear and concise">
-        </textarea>
-      </div>
-
-      <div className="createReviewForm__block">
-        <label htmlFor="cons">Cons (Avoid if)</label>
-        <textarea type="text" name="cons" id="cons" placeholder="Be clear and concise">
-        </textarea>
-      </div>
-    </section>
-
-    <section className="scoreSection">
-      <h3 className="scoreSection__heading">Score</h3>
-      <div className="scoreSection__category">
-
-        <h4>Visual</h4>
-        <div className="createReviewForm__block">
-          <label htmlFor="visualScore">Score</label>
-          <input type="text" name="visualScore" id="visualScore" placeholder="5" />
-        </div>
-        <div className="createReviewForm__block">
-          <label htmlFor="visualSummary">Summary</label>
-          <textarea name="visualSummary" id="visualSummary" placeholder="Be clear and concise">
-          </textarea>
-        </div>
-      </div>
-
-      <div className="scoreSection__category">
-        <h4>Audio</h4>
-        <div className="createReviewForm__block">
-          <label htmlFor="audioScore">Score</label>
-          <input type="text" name="audioScore" id="audioScore" placeholder="5" />
-        </div>
-        <div className="createReviewForm__block">
-          <label htmlFor="audioSummary">Summary</label>
-          <textarea name="audioSummary" id="audioSummary" placeholder="Be clear and concise">
-          </textarea>
-        </div>
-      </div>
-
-      <div className="scoreSection__category">
-        <h4>Gameplay</h4>
-        <div className="createReviewForm__block">
-          <label htmlFor="gameplayScore">Score</label>
-          <input type="text" name="gameplayScore" id="gameplayScore" placeholder="5" />
-        </div>
-        <div className="createReviewForm__block">
-          <label htmlFor="gameplaySummary">Summary</label>
-          <textarea name="gameplaySummary" id="gameplaySummary" placeholder="Be clear and concise">
-          </textarea>
-        </div>
-      </div>
-
-      <div className="scoreSection__category">
-        <h4>Quality</h4>
-        <div className="createReviewForm__block">
-          <label htmlFor="qualityScore">Score</label>
-          <input type="text" name="qualityScore" id="qualityScore" placeholder="5" />
-        </div>
-        <div className="createReviewForm__block">
-          <label htmlFor="qualitySummary">Summary</label>
-          <textarea name="qualitySummary" id="qualitySummary" placeholder="Be clear and concise">
-          </textarea>
-        </div>
-      </div>
-
-      <div className="scoreSection__category">
-        <h4>Experience</h4>
-        <div className="createReviewForm__block">
-          <label htmlFor="experienceScore">Score</label>
-          <input type="text" name="experienceScore" id="experienceScore" placeholder="5" />
-        </div>
-        <div className="createReviewForm__block">
-          <label htmlFor="experienceSummary">Summary</label>
-          <textarea name="experienceSummary" id="experienceSummary"placeholder="Be clear and concise" >
-          </textarea>
-        </div>
-      </div>
-
-    </section>
-
-    <div>
-      <button type="submit">Post review</button>
-    </div>
-  </form>
-)
-
-export default AdminCreateReviewForm;
+export default AdminReviewForm;
