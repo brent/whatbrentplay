@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import Review from '../Models/Review';
-
-import AdminIndex from './AdminIndex';
 import AdminLogInForm from './AdminLogInForm';
-import AdminCreateReviewForm from './AdminCreateReviewForm';
 import AdminFeedbackBanner from './AdminFeedbackBanner';
 
 import '../css/admin.css';

@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import ReviewModel from '../Models/Review';
-import Review from './Review';
 
 class AdminIndex extends React.Component {
   constructor(props) {
@@ -52,7 +51,7 @@ class AdminIndex extends React.Component {
   handleSubmit = (review, e) => {
     e.preventDefault();
 
-    if (typeof review.slug == 'undefined') {
+    if (typeof review.slug === 'undefined') {
       review['slug'] = this.generateSlug(review.game.name);
 
       const r = ReviewModel.build(review);
@@ -74,7 +73,7 @@ class AdminIndex extends React.Component {
   getReviewIndex = (review, arr) => {
     return new Promise(resolve => {
       arr.findIndex((el, i) => {
-        if (el.id == review.id) {
+        if (el.id === review.id) {
           resolve(i);
         }
       });

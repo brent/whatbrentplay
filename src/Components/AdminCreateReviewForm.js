@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import ReviewModel from '../Models/Review';
-
 import '../css/adminCreateReviewForm.css';
 
 class AdminCreateReviewForm extends React.Component {
