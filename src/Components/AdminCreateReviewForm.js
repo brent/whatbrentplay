@@ -23,7 +23,7 @@ class AdminCreateReviewForm extends React.Component {
           game: {
             name: "Lorem Ipsum: Sit Dolor Amet III",
             cover_url: "http://placehold.it/320x396",
-            platforms: ["Hyper Game System"],
+            platforms: "Hyper Game System",
           },
           rating: [
             { score: 5, summary: "Be concise..."},
@@ -81,7 +81,7 @@ class AdminCreateReviewForm extends React.Component {
             <input type="text" name="game.platforms" id="platforms"
               placeholder={ this.state.review.game.platforms }
               defaultValue={ this.state.review.game.platforms }
-              onChange={ e => this.handleSummaryChange(this.state.review, e) }
+              //onChange={ e => this.handleSummaryChange(this.state.review, e) }
             />
           </div>
 

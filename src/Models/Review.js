@@ -98,23 +98,13 @@ class Review {
     });
   }
 
-  static build(formData) {
-    const platforms = (() => {
-      let splitPlatformString = formData.platforms.value.split(",");
-      let platformArray = [];
-
-      splitPlatformString.forEach((platform) => {
-        platformArray.push(platform.trim());
-      });
-
-      return platformArray;
-    })();
-
-    const visualScore     = parseInt(formData.visualScore.value, 10),
-          audioScore      = parseInt(formData.audioScore.value, 10),
-          gameplayScore   = parseInt(formData.gameplayScore.value, 10),
-          qualityScore    = parseInt(formData.qualityScore.value, 10),
-          experienceScore = parseInt(formData.experienceScore.value, 10);
+  static build(reviewData) {
+    const platforms = [reviewData.game.platforms];
+    const visualScore     = parseInt(reviewData['rating'][0]['score'], 10),
+          audioScore      = parseInt(reviewData['rating'][1]['score'], 10),
+          gameplayScore   = parseInt(reviewData['rating'][2]['score'], 10),
+          qualityScore    = parseInt(reviewData['rating'][3]['score'], 10),
+          experienceScore = parseInt(reviewData['rating'][4]['score'], 10);
 
     const totalScore = (() => {
       let totalScore = 0;
@@ -129,43 +119,43 @@ class Review {
     })();
 
     let review = {
-      slug: formData.slug.value,
+      slug: reviewData.slug,
       createdAt: Date.now(),
       game: {
-        name: formData.gameName.value,
-        cover_url: formData.coverImgUrl.value,
+        name: reviewData.game.name,
+        cover_url: reviewData.game.cover_url,
         platforms: platforms,
       },
       summary: {
-        blurb: formData.blurb.value,
-        pros:  formData.pros.value,
-        cons:  formData.cons.value,
+        blurb: reviewData.summary.blurb,
+        pros:  reviewData.summary.pros,
+        cons:  reviewData.summary.cons,
       },
       rating: [
         {
           category: "visual",
           score: visualScore,
-          summary: formData.visualSummary.value,
+          summary: reviewData['rating'][0]['summary'],
         },
         {
           category: "audio",
           score: audioScore,
-          summary: formData.audioSummary.value,
+          summary: reviewData['rating'][1]['summary'],
         },
         {
           category: "gameplay",
           score: gameplayScore,
-          summary: formData.gameplaySummary.value,
+          summary: reviewData['rating'][2]['summary'],
         },
         {
           category: "quality",
           score: qualityScore,
-          summary: formData.qualitySummary.value,
+          summary: reviewData['rating'][3]['summary'],
         },
         {
           category: "experience",
           score: experienceScore,
-          summary: formData.experienceSummary.value,
+          summary: reviewData['rating'][4]['summary'],
         },
         { 
           totalScore: totalScore,

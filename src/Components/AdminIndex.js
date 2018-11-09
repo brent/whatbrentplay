@@ -33,10 +33,9 @@ class AdminIndex extends React.Component {
     return formattedDate;
   }
 
-  generateSlug = (e) => {
-    const gameTitle = e.target.value,
-          regex = /([a-zA-z0-9?']*)[\s\W]{1,2}/gi,
-          parts = gameTitle.split(regex);
+  generateSlug = (gameName) => {
+    const regex = /([a-zA-z0-9?']*)[\s\W]{1,2}/gi,
+          parts = gameName.split(regex);
 
     let sanitizedParts = [];
     parts.forEach((part) => {
@@ -47,28 +46,34 @@ class AdminIndex extends React.Component {
     });
 
     const slug = sanitizedParts.join("-");
-
-    this.setState((prevState, props) => ({
-      ...prevState,
-      review: { slug: slug }
-    }));
+    return slug;
   }
 
   handleSubmit = (review, e) => {
     e.preventDefault();
 
-    this.getReviewIndex(review, this.state.reviews)
-      .then((reviewIndex) => {
-        return reviewIndex;
-      })
-      .then((index) => {
-        console.log(this.state.reviews[index]);
+    if (typeof review.slug == 'undefined') {
+      review['slug'] = this.generateSlug(review.game.name);
 
-        ReviewModel.update(this.state.reviews[index])
-          .then(doc => {
-            console.log(doc);
-          });
-      });
+      const r = ReviewModel.build(review);
+      ReviewModel.create(r);
+    } else {
+      this.getReviewIndex(review, this.state.reviews)
+        .then((reviewIndex) => {
+          return reviewIndex;
+        })
+        .then((index) => {
+          console.log(this.state.reviews[index]);
+
+          ReviewModel.update(this.state.reviews[index])
+            .then(doc => {
+              console.log(doc);
+            });
+        })
+        .catch(() => {
+          console.log('catchin\'');
+        });
+    }
   }
 
   getReviewIndex = (review, arr) => {
@@ -132,6 +137,13 @@ class AdminIndex extends React.Component {
     return(
       <div>
         <h2>Reviews</h2>
+        <Link to={{
+          pathname: '/admin/review/new',
+            handleSubmit: this.handleSubmit,
+            handleSummaryChange: this.handleSummaryChangeForReview,
+            handleRatingChange: this.handleRatingChangeForReview
+          }}
+          className='newCta'>New review</Link>
         <ul>
           {
             this.state.reviews.map((review) => (
