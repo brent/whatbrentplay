@@ -1,0 +1,56 @@
+.reviewsTable {
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  font-weight: normal;
+  table-layout: fixed;
+  width: 100%;
+}
+
+table,
+thead,
+tbody {
+  text-align: left;
+}
+
+.reviewsTable th,
+.reviewRow td {
+  padding: 0.5rem;
+}
+
+.reviewsTable th:nth-child(1) {
+  width: 50%;
+}
+
+.reviewsTable th:nth-child(2) {
+  width: 15%;
+}
+
+.reviewsTable th:nth-child(3) {
+  width: 20%;
+}
+
+.reviewsTable th:nth-child(4) {
+  width: 15%%;
+}
+
+.reviewsTable th {
+  font-size: 0.875rem;
+}
+
+.reviewsTable thead {
+  border-bottom: 1px solid #777;
+  color: #777;
+  text-transform: uppercase;
+}
+
+.reviewRow:nth-child(even) {
+  background-color: #3e3e3e;
+}
+
+.reviewRow__gameName a {
+  color: #ddd;
+  text-decoration: none;
+}
+.reviewRow__gameName a:hover::after {
+  content: " \2192";
+}

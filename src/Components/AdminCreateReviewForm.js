@@ -50,10 +50,9 @@ class AdminReviewForm extends React.Component {
   render() {
     return(
       <div className="">
-        <Link to='/admin/index'>&larr; back to reviews</Link>
+        <Link className="backButton" to='/admin/index'>&larr; back to reviews</Link>
         <form className="createReviewForm" onSubmit={ e => this.handleSubmit(this.state.review, e) }>
           <section className="gameMeta">
-            <h3>Info</h3>
             <div className="createReviewForm__block">
               <label htmlFor="gameName">Game name</label>
               <input type="text" name="game.name" id="gameName" 
@@ -63,7 +62,7 @@ class AdminReviewForm extends React.Component {
               />
               <input type="hidden" name="slug" id="slug" defaultValue={ this.state.review.slug } />
               { this.state.review.slug
-                ? <p><span>slug: </span>{ this.state.review.slug }</p>
+                ? <p className="slug"><span>slug: /</span>{ this.state.review.slug }</p>
                 : null
               }
             </div>
