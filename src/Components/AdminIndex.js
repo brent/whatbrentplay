@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 
 import ReviewModel from '../Models/Review';
 
+import AdminPostsTable from './AdminPostsTable';
+
+import '../css/adminIndex.css';
+
 class AdminIndex extends React.Component {
   constructor(props) {
     super(props);
@@ -128,30 +132,24 @@ class AdminIndex extends React.Component {
   render() {
     return(
       <div>
-        <h2>Reviews</h2>
-        <Link to={{
-          pathname: '/admin/review/new',
-          handleSubmit: this.handleSubmit,
-          handleSummaryChange: this.handleSummaryChangeForReview,
-          handleRatingChange: this.handleRatingChangeForReview
-        }} className='newCta'>New review</Link>
-        <ul>
-          {
-            this.state.reviews.map((review) => (
-              <li key={ review.id }>
-                <Link to={{ 
-                  pathname: `/admin/review/${review.slug}`,
-                  state: { review: review },
-                  handleSubmit: this.handleSubmit,
-                  handleSummaryChange: this.handleSummaryChangeForReview,
-                  handleRatingChange: this.handleRatingChangeForReview
-                }}>{ review.game.name }</Link>
-                <p>{ review.rating[review.rating.length - 1].totalScore }</p>
-                <p>{ this.displayDate(review.createdAt) }</p>
-              </li>
-            ))
-          }
-        </ul>
+        <div className="reviewsHeader">
+          <h2>Reviews ({ this.state.reviews.length })</h2>
+          <Link to={{
+            pathname: '/admin/review/new',
+            handleSubmit: this.handleSubmit,
+            handleSummaryChange: this.handleSummaryChangeForReview,
+            handleRatingChange: this.handleRatingChangeForReview
+          }} className='newCta'>+ review</Link>
+        </div>
+
+        <AdminPostsTable 
+          posts={ this.state.reviews }
+          handleSubmit = { this.handleSubmit }
+          handleSummaryChange = { this.handleSummaryChangeForReview }
+          handleRatingChange = { this.handleRatingChangeForReview }
+          displayDate = { this.displayDate }
+          className='posts-table'
+        />
       </div>
     )
   }

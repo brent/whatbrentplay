@@ -1,0 +1,23 @@
+.reviewsHeader {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.newCta {
+  background-color: #fff;
+  border-radius: 0.25rem;
+  box-shadow: 1px 0 7px rgba(0,0,0,0.07);
+  color: #975DA1;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  text-decoration: none;
+  position: absolute;
+  right: 0;
+  top: -0.5rem;
+}
+
+.newCta:hover {
+  background-color: #975DA1;
+  color: #fff;
+  transition: background-color 0.25s, color 0.25s;
+}
