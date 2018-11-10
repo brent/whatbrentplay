@@ -49,6 +49,7 @@ tbody {
 
 .reviewRow__gameName a {
   color: #ddd;
+  display: block;
   text-decoration: none;
 }
 .reviewRow__gameName a:hover::after {
