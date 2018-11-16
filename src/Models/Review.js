@@ -11,18 +11,7 @@ class Review {
     this.summary    = reviewData.summary;
     this.createdAt  = reviewData.createdAt;
     this.slug       = reviewData.slug;
-  }
-
-  static new(...props) {
-    if (props) {
-      props.forEach((prop) => {
-        this.prop = prop;
-      });
-    } else {
-      this.game = "Game Title";
-      this.rating = 0;
-      this.summary = "Lorem ipsum dolor sit amet";
-    }
+    this.isDraft    = reviewData.isDraft;
   }
 
   static _getReviews(querySnapshot) {
@@ -39,6 +28,22 @@ class Review {
   static getAll() {
     return new Promise((resolve, reject) => {
       db.collection('reviews')
+        .orderBy('createdAt', 'desc')
+        .get()
+        .then((querySnapshot) => {
+          return this._getReviews(querySnapshot);
+        }).then((reviews) => {
+          resolve(reviews);
+        }).catch((err) => {
+          reject(err);
+        });
+    });
+  }
+
+  static getAllLive() {
+    return new Promise((resolve, reject) => {
+      db.collection('reviews')
+        .where('isDraft', '==', false)
         .orderBy('createdAt', 'desc')
         .get()
         .then((querySnapshot) => {
@@ -118,6 +123,7 @@ class Review {
     })();
 
     let review = {
+      isDraft: reviewData.isDraft,
       slug: reviewData.slug,
       createdAt: Date.now(),
       game: {

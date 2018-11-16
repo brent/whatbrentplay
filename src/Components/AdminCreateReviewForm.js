@@ -10,6 +10,9 @@ class AdminReviewForm extends React.Component {
     this.handleSubmit = props.location.handleSubmit;
     this.handleSummaryChange = props.location.handleSummaryChange;
     this.handleRatingChange = props.location.handleRatingChange;
+    this.handleDraftChange = props.location.handleDraftChange;
+    
+    console.log(props.location);
 
     if (props.location.state) {
       this.state = {
@@ -20,6 +23,7 @@ class AdminReviewForm extends React.Component {
     } else {
       this.state = { 
         review: {
+          isDraft: true,
           game: {
             name: "Lorem Ipsum: Sit Dolor Amet III",
             cover_url: "http://placehold.it/320x396",
@@ -42,9 +46,45 @@ class AdminReviewForm extends React.Component {
     }
   }
 
-  displayCTA() {
+  handleSaveClick = (e) => {
+    e.preventDefault();
+
+    this.setState({ 
+      review: {
+        ...this.state.review,
+        isDraft: true,
+      },
+    });
+  }
+
+  handleSubmitClick = (e) => {
+    e.preventDefault();
+
+    this.setState({ 
+      review: {
+        ...this.state.review,
+        isDraft: false,
+      },
+    });
+  }
+
+  displayCTAs() {
     const ctaLabel = this.state.review.id ? "Edit" : "Post";
-    return <button>{ctaLabel} review</button>;
+    return(
+      <div>
+        <button name="save">Save</button>
+        <div>
+          <input type="checkbox" 
+            name="isDraft" 
+            id="isDraft" 
+            value={ this.state.review.isDraft }
+            checked={ this.state.review.isDraft ? "checked" : undefined }
+            onChange={ e => this.handleDraftChange(this.state.review, e) }
+          />
+          <label htmlFor="isDraft">this is a draft</label>
+        </div>
+      </div>
+    );
   }
 
   render() {
@@ -196,7 +236,7 @@ class AdminReviewForm extends React.Component {
           </section>
 
           <div>
-            { this.displayCTA() }
+            { this.displayCTAs() }
           </div>
         </form>
       </div>

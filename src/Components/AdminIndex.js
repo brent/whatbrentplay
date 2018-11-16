@@ -55,11 +55,16 @@ class AdminIndex extends React.Component {
   handleSubmit = (review, e) => {
     e.preventDefault();
 
+    console.log('handleSubmit review', review);
+
+    console.log(review);
     if (typeof review.slug === 'undefined') {
       review['slug'] = this.generateSlug(review.game.name);
 
       const r = ReviewModel.build(review);
+      console.log('review build', r);
       ReviewModel.create(r);
+      console.log('reviews in state', this.state.reviews);
     } else {
       this.getReviewIndex(review, this.state.reviews)
         .then((reviewIndex) => {
@@ -129,6 +134,16 @@ class AdminIndex extends React.Component {
       });
   }
 
+  handleDraftChangeForReview = (review, e) => {
+    const key = e.target.name;
+
+    this.getReviewIndex(review, this.state.reviews)
+      .then(reviewIndex => {
+        this.state.reviews[reviewIndex][key] = !this.state.reviews[reviewIndex][key];
+        console.log('review', this.state.reviews[reviewIndex]);
+      });
+  }
+
   render() {
     return(
       <div>
@@ -138,7 +153,8 @@ class AdminIndex extends React.Component {
             pathname: '/admin/review/new',
             handleSubmit: this.handleSubmit,
             handleSummaryChange: this.handleSummaryChangeForReview,
-            handleRatingChange: this.handleRatingChangeForReview
+            handleRatingChange: this.handleRatingChangeForReview,
+            handleDraftChange: this.handleDraftChangeForReview 
           }} className='newCta'>+ review</Link>
         </div>
 
@@ -147,6 +163,7 @@ class AdminIndex extends React.Component {
           handleSubmit = { this.handleSubmit }
           handleSummaryChange = { this.handleSummaryChangeForReview }
           handleRatingChange = { this.handleRatingChangeForReview }
+          handleDraftChange = { this.handleDraftChangeForReview }
           displayDate = { this.displayDate }
           className='posts-table'
         />
