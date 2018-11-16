@@ -32,7 +32,7 @@ class AdminPostsTable extends React.Component {
                   </td>
                   <td className="reviewRow__score">{ review.rating[review.rating.length - 1].totalScore }</td>
                   <td className="reviewRow__createdAt">{ this.props.displayDate(review.createdAt) }</td>
-                  <td className="reviewRow__status">Live</td>
+                  <td className="reviewRow__status">{ review.isDraft ? "Draft" : "Live"  }</td>
                 </tr>
               ))
             }
