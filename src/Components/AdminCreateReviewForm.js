@@ -72,9 +72,9 @@ class AdminReviewForm extends React.Component {
     const ctaLabel = this.state.review.id ? "Edit" : "Post";
     return(
       <div>
-        <button name="save">Save</button>
-        <div>
+        <div className="checkboxContainer">
           <input type="checkbox" 
+            className="checkbox"
             name="isDraft" 
             id="isDraft" 
             value={ this.state.review.isDraft }
@@ -83,6 +83,7 @@ class AdminReviewForm extends React.Component {
           />
           <label htmlFor="isDraft">this is a draft</label>
         </div>
+        <button name="save">Save</button>
       </div>
     );
   }
