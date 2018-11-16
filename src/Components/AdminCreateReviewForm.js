@@ -232,6 +232,26 @@ class AdminReviewForm extends React.Component {
                 </textarea>
               </div>
             </div>
+            <div className="scoreSection__category">
+              <h4>Experience</h4>
+              <div className="createReviewForm__block">
+                <label htmlFor="experienceScore">Score</label>
+                <input type="text" name="experience.score" id="experienceScore" 
+                  placeholder={ this.state.review.rating[4].score }
+                  defaultValue={ this.state.review.rating[4].score }
+                  onChange={ e => this.handleRatingChange(this.state.review, e) }
+                />
+              </div>
+              <div className="createReviewForm__block">
+                <label htmlFor="experienceSummary">Summary</label>
+                <textarea name="experience.summary" id="experienceSummary"
+                  placeholder={ this.state.review.rating[4].summary }
+                  defaultValue={ this.state.review.rating[4].summary }
+                  onChange={ e => this.handleRatingChange(this.state.review, e) }
+                >
+                </textarea>
+              </div>
+            </div>
           </section>
 
           <div>
