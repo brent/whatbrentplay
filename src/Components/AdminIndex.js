@@ -129,6 +129,15 @@ class AdminIndex extends React.Component {
       });
   }
 
+  handleDraftChangeForReview = (review, e) => {
+    const key = e.target.name;
+
+    this.getReviewIndex(review, this.state.reviews)
+      .then(reviewIndex => {
+        this.state.reviews[reviewIndex][key] = !this.state.reviews[reviewIndex][key];
+      });
+  }
+
   render() {
     return(
       <div>
@@ -138,7 +147,8 @@ class AdminIndex extends React.Component {
             pathname: '/admin/review/new',
             handleSubmit: this.handleSubmit,
             handleSummaryChange: this.handleSummaryChangeForReview,
-            handleRatingChange: this.handleRatingChangeForReview
+            handleRatingChange: this.handleRatingChangeForReview,
+            handleDraftChange: this.handleDraftChangeForReview 
           }} className='newCta'>+ review</Link>
         </div>
 
@@ -147,6 +157,7 @@ class AdminIndex extends React.Component {
           handleSubmit = { this.handleSubmit }
           handleSummaryChange = { this.handleSummaryChangeForReview }
           handleRatingChange = { this.handleRatingChangeForReview }
+          handleDraftChange = { this.handleDraftChangeForReview }
           displayDate = { this.displayDate }
           className='posts-table'
         />
