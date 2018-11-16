@@ -12,7 +12,6 @@ class Reviews extends Component {
   componentDidMount() {
     ReviewModel.getAllLive()
       .then((reviews) => {
-        console.log(reviews);
         this.setState({
           reviews: reviews
         });

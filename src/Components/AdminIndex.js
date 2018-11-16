@@ -55,16 +55,11 @@ class AdminIndex extends React.Component {
   handleSubmit = (review, e) => {
     e.preventDefault();
 
-    console.log('handleSubmit review', review);
-
-    console.log(review);
     if (typeof review.slug === 'undefined') {
       review['slug'] = this.generateSlug(review.game.name);
 
       const r = ReviewModel.build(review);
-      console.log('review build', r);
       ReviewModel.create(r);
-      console.log('reviews in state', this.state.reviews);
     } else {
       this.getReviewIndex(review, this.state.reviews)
         .then((reviewIndex) => {
@@ -140,7 +135,6 @@ class AdminIndex extends React.Component {
     this.getReviewIndex(review, this.state.reviews)
       .then(reviewIndex => {
         this.state.reviews[reviewIndex][key] = !this.state.reviews[reviewIndex][key];
-        console.log('review', this.state.reviews[reviewIndex]);
       });
   }
 

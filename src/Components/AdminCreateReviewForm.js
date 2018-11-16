@@ -11,8 +11,6 @@ class AdminReviewForm extends React.Component {
     this.handleSummaryChange = props.location.handleSummaryChange;
     this.handleRatingChange = props.location.handleRatingChange;
     this.handleDraftChange = props.location.handleDraftChange;
-    
-    console.log(props.location);
 
     if (props.location.state) {
       this.state = {
