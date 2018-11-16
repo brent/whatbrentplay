@@ -10,7 +10,7 @@ class Reviews extends Component {
   }
 
   componentDidMount() {
-    ReviewModel.getAll()
+    ReviewModel.getAllLive()
       .then((reviews) => {
         this.setState({
           reviews: reviews
