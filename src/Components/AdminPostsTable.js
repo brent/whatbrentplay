@@ -25,9 +25,11 @@ class AdminPostsTable extends React.Component {
                       pathname: `/admin/review/${review.slug}`,
                       state: { review: review },
                       handleSubmit: this.props.handleSubmit,
+                      handleGameNameChangeForReview: this.props.handleGameNameChangeForReview,
                       handleSummaryChange: this.props.handleSummaryChange,
                       handleRatingChange: this.props.handleRatingChange,
-                      handleDraftChange: this.props.handleDraftChange
+                      handleDraftChange: this.props.handleDraftChange,
+                      addReviewToReviewsArray: this.props.addReviewToReviewsArray
                     }}>{ review.game.name }</Link>
                   </td>
                   <td className="reviewRow__score">{ review.rating[review.rating.length - 1].totalScore }</td>

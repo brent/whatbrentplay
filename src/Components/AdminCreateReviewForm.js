@@ -8,9 +8,11 @@ class AdminReviewForm extends React.Component {
     super(props);
 
     this.handleSubmit = props.location.handleSubmit;
+    this.handleGameNameChangeForReview  = props.location.handleGameNameChangeForReview;
     this.handleSummaryChange = props.location.handleSummaryChange;
     this.handleRatingChange = props.location.handleRatingChange;
     this.handleDraftChange = props.location.handleDraftChange;
+    this.addReviewToReviewsArray = props.location.addReviewToReviewsArray;
 
     if (props.location.state) {
       this.state = {
@@ -22,10 +24,11 @@ class AdminReviewForm extends React.Component {
       this.state = { 
         review: {
           isDraft: true,
+          slug: "lorem-ipsum-sit-dolor-amet-iii",
           game: {
             name: "Lorem Ipsum: Sit Dolor Amet III",
             cover_url: "http://placehold.it/320x396",
-            platforms: "Hyper Game System",
+            platforms: ["Hyper Game System"],
           },
           rating: [
             { score: 5, summary: "Be concise..."},
@@ -41,29 +44,9 @@ class AdminReviewForm extends React.Component {
           },
         }
       };
+
+      this.addReviewToReviewsArray(this.state.review);
     }
-  }
-
-  handleSaveClick = (e) => {
-    e.preventDefault();
-
-    this.setState({ 
-      review: {
-        ...this.state.review,
-        isDraft: true,
-      },
-    });
-  }
-
-  handleSubmitClick = (e) => {
-    e.preventDefault();
-
-    this.setState({ 
-      review: {
-        ...this.state.review,
-        isDraft: false,
-      },
-    });
   }
 
   displayCTAs() {
@@ -97,7 +80,7 @@ class AdminReviewForm extends React.Component {
               <input type="text" name="game.name" id="gameName" 
                 placeholder={ this.state.review.game.name }
                 defaultValue={ this.state.review.game.name }
-                onChange={ e => this.handleSummaryChange(this.state.review, e) }
+                onChange={ e => this.handleGameNameChangeForReview (this.state.review, e) }
               />
               <input type="hidden" name="slug" id="slug" defaultValue={ this.state.review.slug } />
               { this.state.review.slug

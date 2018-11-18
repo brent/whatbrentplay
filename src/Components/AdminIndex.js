@@ -54,31 +54,31 @@ class AdminIndex extends React.Component {
 
   handleSubmit = (review, e) => {
     e.preventDefault();
+    console.log('review', review);
+    console.log('reviews', this.state.reviews);
 
-    if (typeof review.slug === 'undefined') {
-      review['slug'] = this.generateSlug(review.game.name);
-
-      const r = ReviewModel.build(review);
-      ReviewModel.create(r);
-    } else {
-      this.getReviewIndex(review, this.state.reviews)
-        .then((reviewIndex) => {
-          return reviewIndex;
-        })
-        .then((index) => {
-          ReviewModel.update(this.state.reviews[index]);
-        })
-        .catch(() => {
-          console.log('catchin\'');
-        });
-    }
+    /*
+    this.getReviewIndex(review, this.state.reviews)
+      .then((reviewIndex) => {
+        return reviewIndex;
+      })
+      .then((index) => {
+        ReviewModel.update(this.state.reviews[index]);
+      })
+      .catch(() => {
+        console.log('catchin\'');
+      });
+    */
   }
 
+  // This doesn't work with new reviews for some reason
   getReviewIndex = (review, arr) => {
-    return new Promise(resolve => {
-      arr.findIndex((el, i) => {
-        if (el.id === review.id) {
+    return new Promise((resolve, reject) => {
+      arr.findIndex((el, i, arr) => {
+        if (review.slug === el.slug) {
           resolve(i);
+        } else {
+          reject(undefined);
         }
       });
     });
@@ -108,6 +108,23 @@ class AdminIndex extends React.Component {
     return index;
   }
 
+  addReviewToReviewsArray = (review) => {
+    console.log('test');
+    this.getReviewIndex(review, this.state.reviews)
+      .then(() => {
+        console.log('in reviews array');
+      })
+      .catch(() => {
+        const r = ReviewModel.build(review);
+        this.state.reviews.push(ReviewModel.new(r));
+        console.log(this.state.reviews);
+      });
+  }
+
+  handleGameNameChangeForReview = (review, e) => {
+    this.handleSummaryChangeForReview(review, e);
+  }
+
   handleSummaryChangeForReview = (review, e) => {
     const [ key, val ] = e.target.name.split('.');
     const newVal = e.target.value;
@@ -115,6 +132,9 @@ class AdminIndex extends React.Component {
     this.getReviewIndex(review, this.state.reviews)
       .then((index) => {
         this.state.reviews[index][key][val] = newVal;
+      })
+      .catch(() => {
+        console.log('summaryChangeCatch', review, this.state.reviews);
       });
   }
 
@@ -126,6 +146,9 @@ class AdminIndex extends React.Component {
       .then(reviewIndex => {
         const categoryIndex = this.getIndexForCategory(key);
         this.state.reviews[reviewIndex]['rating'][categoryIndex][val] = newVal;
+      })
+      .catch(() => {
+        this.state.reviews.push(review);
       });
   }
 
@@ -135,6 +158,9 @@ class AdminIndex extends React.Component {
     this.getReviewIndex(review, this.state.reviews)
       .then(reviewIndex => {
         this.state.reviews[reviewIndex][key] = !this.state.reviews[reviewIndex][key];
+      })
+      .catch(() => {
+        this.state.reviews.push(review);
       });
   }
 
@@ -146,19 +172,23 @@ class AdminIndex extends React.Component {
           <Link to={{
             pathname: '/admin/review/new',
             handleSubmit: this.handleSubmit,
+            handleGameNameChangeForReview: this.handleGameNameChangeForReview,
             handleSummaryChange: this.handleSummaryChangeForReview,
             handleRatingChange: this.handleRatingChangeForReview,
-            handleDraftChange: this.handleDraftChangeForReview 
+            handleDraftChange: this.handleDraftChangeForReview,
+            addReviewToReviewsArray: this.addReviewToReviewsArray
           }} className='newCta'>+ review</Link>
         </div>
 
         <AdminPostsTable 
           posts={ this.state.reviews }
           handleSubmit = { this.handleSubmit }
+          handleGameNameChangeForReview = { this.handleGameNameChangeForReview  }
           handleSummaryChange = { this.handleSummaryChangeForReview }
           handleRatingChange = { this.handleRatingChangeForReview }
           handleDraftChange = { this.handleDraftChangeForReview }
           displayDate = { this.displayDate }
+          addReviewToReviewsArray = { this.addReviewToReviewsArray }
           className='posts-table'
         />
       </div>

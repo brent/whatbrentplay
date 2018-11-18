@@ -1,9 +1,15 @@
 import { db } from '../firebase';
 
 class Review {
-  constructor(firebaseDoc) {
-    const id = firebaseDoc.id;
-    const reviewData = firebaseDoc.data();
+  constructor(reviewData) {
+    let id;
+
+    if (reviewData.id != null) {
+      id = reviewData.id;
+      reviewData = reviewData.data();
+    } else {
+      id = null;
+    }
 
     this.id         = id;
     this.game       = reviewData.game;
@@ -100,6 +106,10 @@ class Review {
         .then((doc) => resolve(doc))
         .catch((err) => reject(err));
     });
+  }
+
+  static new(reviewData) {
+    return new Review(reviewData);
   }
 
   static build(reviewData) {
