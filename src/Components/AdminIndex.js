@@ -115,9 +115,8 @@ class AdminIndex extends React.Component {
         console.log('in reviews array');
       })
       .catch(() => {
-        const r = ReviewModel.build(review);
-        this.state.reviews.push(ReviewModel.new(r));
-        console.log(this.state.reviews);
+        this.state.reviews.push(review);
+        console.log(review);
       });
   }
 

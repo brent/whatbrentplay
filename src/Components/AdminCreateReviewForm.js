@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import ReviewModel from '../Models/Review';
+
 import '../css/adminCreateReviewForm.css';
 
 class AdminReviewForm extends React.Component {
@@ -21,31 +23,32 @@ class AdminReviewForm extends React.Component {
         },
       }
     } else {
-      this.state = { 
-        review: {
-          isDraft: true,
-          slug: "lorem-ipsum-sit-dolor-amet-iii",
-          game: {
-            name: "Lorem Ipsum: Sit Dolor Amet III",
-            cover_url: "http://placehold.it/320x396",
-            platforms: ["Hyper Game System"],
-          },
-          rating: [
-            { score: 5, summary: "Be concise..."},
-            { score: 5, summary: "Be concise..."},
-            { score: 5, summary: "Be concise..."},
-            { score: 5, summary: "Be concise..."},
-            { score: 5, summary: "Be concise..."},
-          ],
-          summary: {
-            blurb: "",
-            pros: "",
-            cons: "",
-          },
-        }
+      const reviewData = {
+      isDraft: true,
+        slug: "lorem-ipsum-sit-dolor-amet-iii",
+        game: {
+          name: "Lorem Ipsum: Sit Dolor Amet III",
+          cover_url: "http://placehold.it/320x396",
+          platforms: ["Hyper Game System"],
+        },
+        rating: [
+          { score: 5, summary: "Be concise..."},
+          { score: 5, summary: "Be concise..."},
+          { score: 5, summary: "Be concise..."},
+          { score: 5, summary: "Be concise..."},
+          { score: 5, summary: "Be concise..."},
+        ],
+        summary: {
+          blurb: "",
+          pros: "",
+          cons: "",
+        },
       };
 
-      this.addReviewToReviewsArray(this.state.review);
+      const review = new ReviewModel(reviewData);
+
+      console.log(review);
+      this.addReviewToReviewsArray(review);
     }
   }
 

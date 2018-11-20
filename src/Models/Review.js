@@ -3,6 +3,7 @@ import { db } from '../firebase';
 class Review {
   constructor(reviewData) {
     let id;
+    let createdAt;
 
     if (reviewData.id != null) {
       id = reviewData.id;
@@ -11,11 +12,15 @@ class Review {
       id = null;
     }
 
+    if (createdAt === undefined) {
+      createdAt = Date.now();
+    }
+
     this.id         = id;
     this.game       = reviewData.game;
     this.rating     = reviewData.rating;
     this.summary    = reviewData.summary;
-    this.createdAt  = reviewData.createdAt;
+    this.createdAt  = createdAt;
     this.slug       = reviewData.slug;
     this.isDraft    = reviewData.isDraft;
   }
@@ -106,10 +111,6 @@ class Review {
         .then((doc) => resolve(doc))
         .catch((err) => reject(err));
     });
-  }
-
-  static new(reviewData) {
-    return new Review(reviewData);
   }
 
   static build(reviewData) {
