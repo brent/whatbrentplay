@@ -1,15 +1,26 @@
 import { db } from '../firebase';
 
 class Review {
-  constructor(firebaseDoc) {
-    const id = firebaseDoc.id;
-    const reviewData = firebaseDoc.data();
+  constructor(reviewData) {
+    let id;
+    let createdAt;
+
+    if (reviewData.id != null) {
+      id = reviewData.id;
+      reviewData = reviewData.data();
+    } else {
+      id = null;
+    }
+
+    if (createdAt === undefined) {
+      createdAt = Date.now();
+    }
 
     this.id         = id;
     this.game       = reviewData.game;
     this.rating     = reviewData.rating;
     this.summary    = reviewData.summary;
-    this.createdAt  = reviewData.createdAt;
+    this.createdAt  = createdAt;
     this.slug       = reviewData.slug;
     this.isDraft    = reviewData.isDraft;
   }
