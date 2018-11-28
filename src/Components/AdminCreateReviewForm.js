@@ -110,9 +110,7 @@ class AdminReviewForm extends React.Component {
     let review = this.state.review;
     review.slug = slug;
 
-    this.setState({ review: review }, () => {
-      console.log('handleGameNameChange review', this.state.review);
-    });
+    this.setState({ review: review });
 
     this.handleSummaryChange(e);
   }
@@ -124,9 +122,7 @@ class AdminReviewForm extends React.Component {
     let review = this.state.review;
     review[key][val] = newVal;
 
-    this.setState({ review: review }, ()=> {
-      console.log('handleSummaryChange review', this.state.review);
-    });
+    this.setState({ review: review });
   }
 
   handleRatingChange = (e) => {
@@ -158,8 +154,14 @@ class AdminReviewForm extends React.Component {
     let review = this.state.review;
     const isDraft = !review.isDraft;
     review.isDraft = isDraft;
-
     this.setState({ review: review });
+  }
+
+  handlePlatformChange(e) {
+    const platform = e.target.value;
+    let review = this.state.review;
+    review.game.platforms[0] = platform;
+    this.setState({ review: review }, () => console.log(this.state.review));
   }
 
   displayCTAs() {
@@ -215,7 +217,7 @@ class AdminReviewForm extends React.Component {
               <input type="text" name="game.platforms" id="platforms"
                 placeholder={ this.state.review.game.platforms }
                 defaultValue={ this.state.review.game.platforms }
-                //onChange={ e => this.handleSummaryChange(this.state.review, e) }
+                onChange={ e => this.handlePlatformChange(e) }
               />
             </div>
 
