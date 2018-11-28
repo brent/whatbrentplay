@@ -161,7 +161,7 @@ class AdminReviewForm extends React.Component {
     const platform = e.target.value;
     let review = this.state.review;
     review.game.platforms[0] = platform;
-    this.setState({ review: review }, () => console.log(this.state.review));
+    this.setState({ review: review });
   }
 
   displayCTAs() {
