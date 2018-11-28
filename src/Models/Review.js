@@ -113,6 +113,17 @@ class Review {
     });
   }
 
+  static delete(doc) {
+    return new Promise((resolve, reject) => {
+      db.collection('reviews')
+        .doc(doc.id)
+        .delete()
+        .then(() => resolve(true))
+        .catch((err) => reject(err));
+
+    });
+  }
+
   static build(reviewData) {
     const platforms = [reviewData.game.platforms];
     const visualScore     = parseInt(reviewData['rating'][0]['score'], 10),

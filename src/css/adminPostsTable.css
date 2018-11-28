@@ -55,3 +55,13 @@ tbody {
 .reviewRow__gameName a:hover::after {
   content: " \2192";
 }
+
+.reviewRow__delete a {
+  font-size: 0.8125rem;
+  font-weight: normal;
+}
+
+.reviewRow__delete a:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
