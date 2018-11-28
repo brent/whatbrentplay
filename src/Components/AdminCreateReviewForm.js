@@ -166,7 +166,7 @@ class AdminReviewForm extends React.Component {
 
   displayCTAs() {
     return(
-      <div>
+      <div className="cta-container">
         <div className="checkboxContainer">
           <input type="checkbox" 
             className="checkbox"
@@ -178,7 +178,7 @@ class AdminReviewForm extends React.Component {
           />
           <label htmlFor="isDraft">this is a draft</label>
         </div>
-        <button name="save">Save</button>
+        <button className="cta-btn" name="save">Save</button>
       </div>
     );
   }
@@ -351,7 +351,7 @@ class AdminReviewForm extends React.Component {
             </div>
           </section>
 
-          <div>
+          <div className="cta-wrapper">
             { this.displayCTAs() }
           </div>
         </form>
