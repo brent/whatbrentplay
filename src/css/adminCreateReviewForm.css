@@ -4,10 +4,10 @@
   box-shadow: 1px 0 7px rgba(0,0,0,0.07);
   color: #975DA1;
   display: inline-block;
-  padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
-  text-decoration: none;
   margin-bottom: 1rem;
+  padding: 0.25rem 0.5rem;
+  text-decoration: none;
 }
 
 .backButton:hover {
@@ -34,13 +34,13 @@
 
 .createReviewForm input,
 .createReviewForm textarea {
-  width: 100%;
   background: #444;
   border: none;
-  font-size: 1rem;
   color: #eee;
-  padding: 0.5rem;
+  font-size: 1rem;
   outline: none;
+  padding: 0.5rem;
+  width: 100%;
 }
 
 .createReviewForm__block textarea {
@@ -54,17 +54,17 @@
 }
 
 .createReviewForm h4 {
+  color: #fff;
   font-size: 1rem;
   font-weight: 700;
-  color: #fff;
-  text-transform: uppercase;
   margin-bottom: 0.5rem;
+  text-transform: uppercase;
 }
 
 .scoreSection__category {
-  padding-bottom: 4rem;
-  margin-bottom: 3rem;
   border-bottom: 0.125rem solid #444;
+  margin-bottom: 3rem;
+  padding-bottom: 4rem;
 }
 
 .slug {
@@ -72,17 +72,33 @@
 }
 
 .checkboxContainer .checkbox {
-  width: initial;
   margin-right: 0.5rem;
+  width: initial;
 }
 
 .checkboxContainer {
-  border-radius: 0.25rem;
-  border: 0.125rem solid #555;
-  box-sizing: border-box;
   display: block;
-  margin: 0 auto;
-  max-width: 20rem;
-  margin-bottom: 2rem;
   padding: 0.75rem 1rem;
+  width: 25%;
+}
+
+.cta-wrapper {
+  background: rgba(0,0,0,0.25);
+  bottom: 0;
+  left: 0;
+  padding: 1rem 0;
+  position: fixed;
+  width: 100%;
+}
+
+.cta-container {
+  display: flex;
+  margin: 0 auto;
+  max-width: 40rem;
+}
+
+.cta-btn {
+  max-width: none;
+  padding: 0;
+  width: 75%;
 }
