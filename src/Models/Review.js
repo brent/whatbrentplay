@@ -12,9 +12,9 @@ class Review {
       id = null;
     }
 
-    if (createdAt === undefined) {
-      createdAt = Date.now();
-    }
+    createdAt = reviewData.createdAt
+                ? reviewData.createdAt
+                : Date.now();
 
     this.id         = id;
     this.game       = reviewData.game;

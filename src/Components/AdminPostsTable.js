@@ -4,11 +4,6 @@ import { Link } from 'react-router-dom';
 import '../css/adminPostsTable.css';
 
 class AdminPostsTable extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(this.props.reviews);
-  }
-
   displayDate(date) {
     const dateObj = new Date(date);
 
@@ -43,7 +38,7 @@ class AdminPostsTable extends React.Component {
                     }}>{ review.game.name }</Link>
                   </td>
                   <td className="reviewRow__score">{ review.rating[review.rating.length - 1].totalScore }</td>
-                  <td className="reviewRow__createdAt">{ review.createdAt }</td>
+                  <td className="reviewRow__createdAt">{ this.displayDate(review.createdAt) }</td>
                   <td className="reviewRow__status">{ review.isDraft ? "Draft" : "Live"  }</td>
                 </tr>
               ))
