@@ -1,9 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import ReviewModel from '../Models/Review';
+
 import '../css/adminPostsTable.css';
 
 class AdminPostsTable extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      reviews: props.reviews,
+    }
+  }
+
   displayDate(date) {
     const dateObj = new Date(date);
 
@@ -13,6 +23,18 @@ class AdminPostsTable extends React.Component {
 
     const formattedDate = `${month}/${day}/${year}`;
     return formattedDate;
+  }
+
+  handleClick(review, index, event) {
+    if (window.confirm('Are you sure?')) {
+      let reviews = this.state.reviews;
+      delete reviews[index];
+
+      ReviewModel.delete(review)
+        .then(() => {
+          this.setState({ reviews: reviews });
+        });
+    }
   }
 
   render() {
@@ -29,7 +51,7 @@ class AdminPostsTable extends React.Component {
           </thead>
           <tbody>
             {
-              this.props.reviews.map(review => (
+              this.state.reviews.map((review, i) => (
                 <tr key={ review.id } className="reviewRow">
                   <td className="reviewRow__gameName">
                     <Link class_name="review-link" to={{
@@ -40,6 +62,7 @@ class AdminPostsTable extends React.Component {
                   <td className="reviewRow__score">{ review.rating[review.rating.length - 1].totalScore }</td>
                   <td className="reviewRow__createdAt">{ this.displayDate(review.createdAt) }</td>
                   <td className="reviewRow__status">{ review.isDraft ? "Draft" : "Live"  }</td>
+                  <td className="reviewRow__delete"><a onClick={ (e) => this.handleClick(review, i, e) }>delete</a></td>
                 </tr>
               ))
             }
