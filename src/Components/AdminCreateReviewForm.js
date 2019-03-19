@@ -26,11 +26,11 @@ class AdminReviewForm extends React.Component {
             platforms: ["Hyper Game System"],
           },
           rating: [
-            { score: 5, summary: "Be concise..."},
-            { score: 5, summary: "Be concise..."},
-            { score: 5, summary: "Be concise..."},
-            { score: 5, summary: "Be concise..."},
-            { score: 5, summary: "Be concise..."},
+            { category: "visual",     score: 5, summary: "Be concise..."},
+            { category: "audio",      score: 5, summary: "Be concise..."},
+            { category: "gameplay",   score: 5, summary: "Be concise..."},
+            { category: "quality",    score: 5, summary: "Be concise..."},
+            { category: "experience", score: 5, summary: "Be concise..."},
           ],
           summary: {
             blurb: "",
