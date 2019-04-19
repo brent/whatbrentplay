@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReviewModel from '../Models/Review';
-import Review from './Review';
+// import Review from './Review';
+import GameTile from './GameTile';
+import '../css/reviews.css';
 
 class Reviews extends Component {
   constructor(props) {
@@ -21,11 +23,11 @@ class Reviews extends Component {
   render() {
     return (
       <div>
-        <ul className="reviews">
+        <ul className="gameTiles">
           {
             this.state.reviews.map((review) => (
-              <li key={review.id} className="review">
-                <Review review={review} />
+              <li key={review.id} className="gameTile">
+                <GameTile review={review} />
               </li>
             ))
           }

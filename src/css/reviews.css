@@ -1,0 +1,11 @@
+.gameTiles {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grip-gap: 2rem 4rem;
+  justify-items: center;
+}
+
+.gameTiles .gameTile {
+  max-width: 179px;
+  max-height: 212px;
+}
