@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import ReviewModel from '../Models/Review';
 
@@ -28,15 +28,19 @@ class AdminIndex extends React.Component {
   }
 
   render() {
+    const { isLoggedIn } = this.props.location.state || { };
     return(
       <div>
-        <div className="reviewsHeader">
-          <h2>Reviews ({ this.state.reviews.length })</h2>
-          <Link to={ '/admin/review/new' } 
-            className='newCta'
-          >+ review</Link>
-        </div>
-
+        {
+          !isLoggedIn
+            ? <Redirect to='/admin' />
+            : <div className="reviewsHeader">
+                <h2>Reviews ({ this.state.reviews.length })</h2>
+                <Link to={ '/admin/review/new' } 
+                  className='newCta'
+                >+ review</Link>
+              </div>
+        }
         {
           this.state.isLoading
             ? <h3>LOADING...</h3>

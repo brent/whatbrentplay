@@ -23,8 +23,6 @@ class Admin extends Component {
       this.setState({
         isLoggedIn: true,
       });
-
-      e.target.reset();
     } else {
       alert("Credentials incorrect, try again");
     }
@@ -38,6 +36,10 @@ class Admin extends Component {
     });
   }
 
+  componentDidUpdate() {
+    console.log(this.state);
+  }
+
   render() {
     return(
       <div className="adminWrapper">
@@ -49,7 +51,10 @@ class Admin extends Component {
         <h2 className="adminWrapper__heading">Admin</h2>
         {
           this.state.isLoggedIn 
-            ? <Redirect to='/admin/index' />
+            ? <Redirect to={{
+                pathname:'/admin/index',
+                state: { isLoggedIn: this.state.isLoggedIn },
+              }}/>
             : <AdminLogInForm 
                 onSubmit={ this.handleAdminLogInSubmit }
               /> 
