@@ -22,17 +22,15 @@ class Reviews extends Component {
 
   render() {
     return (
-      <div>
-        <ul className="gameTiles">
-          {
-            this.state.reviews.map((review) => (
-              <li key={review.id} className="gameTile">
-                <GameTile review={review} />
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+      <ul className="gameTiles">
+        {
+          this.state.reviews.map((review) => (
+            <li key={review.id} className="gameTile">
+              <GameTile review={review} />
+            </li>
+          ))
+        }
+      </ul>
     );
   }
 }
