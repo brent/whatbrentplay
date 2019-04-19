@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReviewModel from '../Models/Review';
 import Review from './Review';
+import '../css/reviewDetail.css';
 
 class ReviewDetail extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class ReviewDetail extends Component {
                      ? <Review review={ this.state.review } />
                      : null;
 
-    return <div>{ review }</div>;
+    return <div className="reviewDetailWrapper">{ review }</div>;
   }
 }
 
