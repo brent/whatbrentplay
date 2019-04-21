@@ -36,7 +36,10 @@ class AdminIndex extends React.Component {
             ? <Redirect to='/admin' />
             : <div className="reviewsHeader">
                 <h2>Reviews ({ this.state.reviews.length })</h2>
-                <Link to={ '/admin/review/new' } 
+                <Link to={{ 
+                  pathname: '/admin/review/new',
+                  state: { isLoggedIn: isLoggedIn },
+                }} 
                   className='newCta'
                 >+ review</Link>
               </div>
