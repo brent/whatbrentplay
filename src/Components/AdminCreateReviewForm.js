@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import ReviewModel from '../Models/Review';
 
@@ -183,9 +183,9 @@ class AdminReviewForm extends React.Component {
     );
   }
 
-  render() {
+  displayForm() {
     return(
-      <div className="">
+      <div>
         <Link className="backButton" to='/admin/index'>&larr; back to reviews</Link>
         <form className="createReviewForm" onSubmit={ e => this.handleSubmit(e) }>
           <section className="gameMeta">
@@ -355,6 +355,19 @@ class AdminReviewForm extends React.Component {
             { this.displayCTAs() }
           </div>
         </form>
+      </div>
+    )
+  }
+
+  render() {
+    const { isLoggedIn } = this.props.location.state || { };
+    return(
+      <div className="">
+        { 
+          !isLoggedIn
+            ? <Redirect to='/admin' />
+            : this.displayForm() 
+        }
       </div>
     )
   }
