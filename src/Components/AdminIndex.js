@@ -49,6 +49,7 @@ class AdminIndex extends React.Component {
             ? <h3>LOADING...</h3>
             : <AdminPostsTable 
               reviews={ this.state.reviews }
+              isLoggedIn={ isLoggedIn }
               className='posts-table'
             />
         }

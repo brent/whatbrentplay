@@ -186,7 +186,10 @@ class AdminReviewForm extends React.Component {
   displayForm() {
     return(
       <div>
-        <Link className="backButton" to='/admin/index'>&larr; back to reviews</Link>
+        <Link className="backButton" to={{
+          pathname: '/admin/index',
+          state: { isLoggedIn: true }
+        }}>&larr; back to reviews</Link>
         <form className="createReviewForm" onSubmit={ e => this.handleSubmit(e) }>
           <section className="gameMeta">
             <div className="createReviewForm__block">
