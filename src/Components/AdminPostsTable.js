@@ -11,6 +11,7 @@ class AdminPostsTable extends React.Component {
 
     this.state = {
       reviews: props.reviews,
+      isLoggedIn: this.props.isLoggedIn,
     }
   }
 
@@ -57,6 +58,7 @@ class AdminPostsTable extends React.Component {
                     <Link class_name="review-link" to={{
                       pathname: `/admin/review/${review.slug}`,
                       review: review,
+                      state: { isLoggedIn: this.state.isLoggedIn }
                     }}>{ review.game.name }</Link>
                   </td>
                   <td className="reviewRow__score">{ review.rating[review.rating.length - 1].totalScore }</td>
