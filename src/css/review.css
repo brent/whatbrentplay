@@ -77,12 +77,12 @@
   margin-bottom: 3rem;
 }
 
-.summaryProsOrCons,
-.summaryProsOrCons > span {
+.summaryProsCons,
+.summaryProsCons > span {
   display: block;
 }
 
-.summaryProsOrCons__rest {
+.summaryProsCons__rest {
 }
 
 .reviewSummaryContainer__blurb {
@@ -113,21 +113,21 @@
 
 .subCategoryList__heading,
 .reviewSummaryContainer__heading,
-.summaryProsOrCons__prefix {
+.summaryProsCons__prefix {
   color: #777;
 }
 
 .subCategoryList__heading,
 .reviewSummaryContainer__heading,
 .gameMetaContainer__platforms,
-.summaryProsOrCons__prefix {
+.summaryProsCons__prefix {
   font-size: 1.125rem;
   font-weight: 700;
 }
 
 .subCategoryList__heading,
 .reviewSummaryContainer__heading,
-.summaryProsOrCons__prefix {
+.summaryProsCons__prefix {
   margin-bottom: 0.5rem;
   letter-spacing: 0.125rem;
 }
@@ -164,7 +164,7 @@
 @media (max-width: 320px) {
   .reviewSummaryContainer__title,
   .reviewSummaryContainer__blurb,
-  .summaryProsOrCons,
+  .summaryProsCons,
   .subCategoryList__heading,
   .subCategoryContainer__categoryName {
     font-size: 1rem;
@@ -212,7 +212,7 @@
     hyphens: none;
   }
 
-  .summaryProsOrCons {
+  .summaryProsCons {
     font-size: 1.375rem;
   }
 

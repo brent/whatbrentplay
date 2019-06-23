@@ -11,7 +11,7 @@ class Review extends Component {
       truncated: true,
     }
 
-    this.summaryProsPrefix = "Buy if";
+    this.summaryProsPrefix = ["Buy if", "Play if", "Try if"];
     this.summaryConsPrefix = "Avoid if";
   }
 
@@ -41,29 +41,37 @@ class Review extends Component {
     return categories;
   }
 
-  formatSummaryProsOrCons = (summaryProsOrCons) => {
-    let searchTerm;
+  formatSummaryPros = (summaryPros) => {
+    let prosPrefix;
 
-    if (summaryProsOrCons.includes(this.summaryProsPrefix)) {
-      searchTerm = this.summaryProsPrefix;
-    } else if (summaryProsOrCons.includes(this.summaryConsPrefix)) {
-      searchTerm = this.summaryConsPrefix;
-    } else {
-      searchTerm = null;
+    for (let i = 0; i < this.summaryProsPrefix.length; i++) {
+      if (summaryPros.includes(this.summaryProsPrefix[i])) {
+        prosPrefix = this.summaryProsPrefix[i];
+      }
     }
 
-    if (searchTerm) {
-      const prefix = summaryProsOrCons.slice(0, searchTerm.length);
-      const rest = summaryProsOrCons.slice(searchTerm.length + 1);
+    return this.renderSummaryProsConsWithPrefix(summaryPros, prosPrefix);
+  }
 
-      return(
-        <span className="summaryProsOrCons">
-          <span className="summaryProsOrCons__prefix">{ prefix }&hellip;</span><span className="summaryProsOrCons__rest">{ rest }</span>
-        </span>
-      )
-    } else {
-      return summaryProsOrCons;
+  formatSummaryCons = (summaryCons) => {
+    let consPrefix;
+
+    if (summaryCons.includes(this.summaryConsPrefix)) {
+      consPrefix = this.summaryConsPrefix;
     }
+
+    return this.renderSummaryProsConsWithPrefix(summaryCons, consPrefix);
+  }
+
+  renderSummaryProsConsWithPrefix = (summaryProsCons, prefix) => {
+    const prefixChars = summaryProsCons.slice(0, prefix.length);
+    const rest = summaryProsCons.slice(prefix.length + 1, summaryProsCons.length + 1);
+
+    return(
+      <span className="summaryProsCons">
+        <span className="summaryProsCons__prefix">{ prefixChars }&hellip;</span><span className="summaryProsCons__rest">{ rest }</span>
+      </span>
+    )
   }
 
   render() {
@@ -97,8 +105,8 @@ class Review extends Component {
         <div className="reviewSummaryContainer">
           <h4 className="reviewSummaryContainer__heading reviewSeeAllCTA--hidden">Summary</h4>
           <p className="reviewSummaryContainer__blurb">{ this.props.review.summary.blurb }</p>
-          <p className="reviewSummaryContainer__pros">{ this.formatSummaryProsOrCons(this.props.review.summary.pros) }</p>
-          <p className="reviewSummaryContainer__cons">{ this.formatSummaryProsOrCons(this.props.review.summary.cons) }</p>
+          <p className="reviewSummaryContainer__pros">{ this.formatSummaryPros(this.props.review.summary.pros) }</p>
+          <p className="reviewSummaryContainer__cons">{ this.formatSummaryCons(this.props.review.summary.cons) }</p>
         </div>
 
         <button className={
