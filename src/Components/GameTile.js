@@ -8,8 +8,6 @@ class GameTile extends Component {
     this.state = {
       review: this.props.review
     };
-
-    console.log(this.state);
   }
 
   render() {
