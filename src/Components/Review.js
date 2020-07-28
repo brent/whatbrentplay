@@ -21,6 +21,10 @@ class Review extends Component {
     });
   }
 
+  formatSummary = (summary) => {
+    return summary.replace('\n', '<br><br>');
+  }
+
   renderSubcategories = (review) => {
     let categories = [];
 
@@ -32,7 +36,10 @@ class Review extends Component {
             <h4 className="subCategoryContainer__categoryName">{
               section.category.charAt(0).toUpperCase() + section.category.slice(1)
             }</h4>
-            <p className="subCategoryContainer__scoreSummary">{ section.summary }</p>
+          <p
+            className="subCategoryContainer__scoreSummary"
+            dangerouslySetInnerHTML={{ __html: this.formatSummary(section.summary) }}
+          />
           </li>
         )
       }
