@@ -1,18 +1,15 @@
 .gameTileWrapper {
-  border-radius: 0.25rem;
   display: block;
-  height: 100%;
-  max-height: 220px;
-  margin-bottom: 2vw;
   overflow: hidden;
   position: relative;
   width: 100%;
 }
 
 .gameTile__cover img {
-  height: 220px;
-  width: 179px;
+  height: auto;
+  width: 100%;
   object-fit: cover;
+  aspect-ratio: 2/3;
 }
 
 .gameTile__meta {
@@ -30,9 +27,16 @@
 }
 
 .gameTile__score {
-  margin-bottom: 0.5rem;
+  clear: both;
 }
 
 .gameTile__gameTitle {
-  clear: both;
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 374px) {
+  .gameTile__score,
+  .gameTile__gameTitle {
+    font-size: 1.5rem;
+  }
 }

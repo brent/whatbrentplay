@@ -1,11 +1,12 @@
 .gameTiles {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(179px, 1fr));
-  grid-gap: 2rem 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0 6px;
   justify-items: center;
 }
 
-.gameTiles > * {
-  max-width: 179px;
-  max-height: 220px;
+@media (max-width: 374px) {
+  .gameTiles {
+    display: block;
+  }
 }

@@ -17,12 +17,12 @@ class GameTile extends Component {
           <img src={ this.state.review.game.cover_url } alt={ this.state.review.game.name + ' cover image' } />
         </div>
         <div className="gameTile__meta">
-          <h3 className="gameTile__score">
-            { this.state.review.rating[5].totalScore + '/25' }
-          </h3>
           <h2 className="gameTile__gameTitle">
             { this.state.review.game.name }
           </h2>
+          <h3 className="gameTile__score">
+            { this.state.review.rating[5].totalScore + '/25' }
+          </h3>
         </div>
       </a>
     );
