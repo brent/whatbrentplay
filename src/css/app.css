@@ -58,7 +58,7 @@ button {
 }
 
 .appLogo {
-  /*background: url('/img/wbs-logo.svg') no-repeat;*/
+  background: url('../../public/img/whatbrentplay-logo.svg') no-repeat;
   background-size: cover;
   display: block;
   height: 48px;
