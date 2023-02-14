@@ -1,38 +1,36 @@
-import React, { Component } from 'react';
+import React, {
+  useState,
+  useEffect,
+} from 'react';
 import ReviewModel from '../Models/Review';
-// import Review from './Review';
 import GameTile from './GameTile';
 import '../css/reviews.css';
 
-class Reviews extends Component {
-  constructor(props) {
-    super(props);
+const Reviews = () => {
+  const [reviews, setReviews] = useState(null);
 
-    this.state = { reviews: [] };
-  }
+  useEffect(() => {
+    const getReviews = async () => {
+      const reviews = await ReviewModel.getAllLive();
+      setReviews(reviews);
+    }
 
-  componentDidMount() {
-    ReviewModel.getAllLive()
-      .then((reviews) => {
-        this.setState({
-          reviews: reviews
-        });
-      });
-  }
+    getReviews()
+      .catch(console.error);
+  }, []);
 
-  render() {
-    return (
-      <ul className="gameTiles">
-        {
-          this.state.reviews.map((review) => (
+  return (
+    <ul className="gameTiles">
+      { reviews
+        ? reviews.map((review) => (
             <li key={review.id} className="gameTile">
               <GameTile review={review} />
             </li>
           ))
-        }
-      </ul>
-    );
-  }
+        : null
+      }
+    </ul>
+  )
 }
 
 export default Reviews;

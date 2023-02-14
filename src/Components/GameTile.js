@@ -1,32 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import '../css/gameTile.css';
 
-class GameTile extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      review: this.props.review
-    };
-  }
-
-  render() {
-    return(
-      <a href={ '/' + this.state.review.slug } className="gameTileWrapper">
-        <div className="gameTile__cover">
-          <img src={ this.state.review.game.cover_url } alt={ this.state.review.game.name + ' cover image' } />
-        </div>
-        <div className="gameTile__meta">
-          <h2 className="gameTile__gameTitle">
-            { this.state.review.game.name }
-          </h2>
-          <h3 className="gameTile__score">
-            { this.state.review.rating[5].totalScore + '/25' }
-          </h3>
-        </div>
-      </a>
-    );
-  }
+const GameTile = ({ review }) => {
+  return(
+    <a href={ '/' + review.slug } className="gameTileWrapper">
+      <div className="gameTile__cover">
+        <img src={ review.game.cover_url } alt={ review.game.name + ' cover image' } />
+      </div>
+      <div className="gameTile__meta">
+        <h2 className="gameTile__gameTitle">
+          { review.game.name }
+        </h2>
+        <h3 className="gameTile__score">
+          { review.rating[5].totalScore + '/25' }
+        </h3>
+      </div>
+    </a>
+  );
 }
 
 export default GameTile;

@@ -1,34 +1,32 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReviewModel from '../Models/Review';
 import Review from './Review';
+import { useParams } from 'react-router-dom';
 import '../css/reviewDetail.css';
 
-class ReviewDetail extends Component {
-  constructor(props) {
-    super(props);
+const ReviewDetail = () => {
+  const { slug } = useParams();
+  const [data, setData] = useState(null);
 
-    this.state = { };
-    this.slug = props.match.params.slug;
-  }
+  useEffect(() => {
+    const fetchReviewData = async () => {
+      const reviewData = await ReviewModel.getOneBySlug(slug);
+      setData(reviewData);
+    }
 
-  componentDidMount() {
-    ReviewModel
-      .getOneBySlug(this.slug)
-      .then((review) => {
-        this.setState({
-          review: review,
-        });
-      });
-  }
+    fetchReviewData()
+      .catch(console.error);
 
-  render() {
+  }, [])
 
-    const review = this.state.review
-                     ? <Review review={ this.state.review } />
-                     : null;
-
-    return <div className="reviewDetailWrapper">{ review }</div>;
-  }
+  return (
+    <>
+      { data
+        ? <Review review={data} />
+        : null
+      }
+    </>
+  )
 }
 
 export default ReviewDetail;
