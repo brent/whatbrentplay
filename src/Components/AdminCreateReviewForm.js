@@ -1,52 +1,51 @@
-import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import React, { useState } from 'react';
+import {
+  Link,
+  redirect,
+  useParams,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 
 import ReviewModel from '../Models/Review';
 
 import '../css/adminCreateReviewForm.css';
 
-class AdminReviewForm extends React.Component {
-  constructor(props) {
-    super(props);
+const AdminReviewForm = () => {
+  const navigate = useNavigate();
+  const { slug } = useParams();
+  const { state } = useLocation();
+  const isLoggedIn = state.isLoggedIn;
 
-    this.state = {
-      review: { },
-    };
+  let emptyReview = {
+    isDraft: true,
+    slug: "lorem-ipsum-sit-dolor-amet-iii",
+    game: {
+      name: "Lorem Ipsum: Sit Dolor Amet III",
+      cover_url: "http://placehold.it/320x396",
+      platforms: ["Hyper Game System"],
+    },
+    rating: [
+      { category: "visual",     score: 5, summary: "Be concise..."},
+      { category: "audio",      score: 5, summary: "Be concise..."},
+      { category: "gameplay",   score: 5, summary: "Be concise..."},
+      { category: "quality",    score: 5, summary: "Be concise..."},
+      { category: "experience", score: 5, summary: "Be concise..."},
+    ],
+    summary: {
+      blurb: "",
+      pros: "",
+      cons: "",
+    },
+  };
 
-    const review = (function(reviewProp) {
-      if (reviewProp) {
-        return reviewProp;
-      } else {
-        const reviewData = {
-          isDraft: true,
-          slug: "lorem-ipsum-sit-dolor-amet-iii",
-          game: {
-            name: "Lorem Ipsum: Sit Dolor Amet III",
-            cover_url: "http://placehold.it/320x396",
-            platforms: ["Hyper Game System"],
-          },
-          rating: [
-            { category: "visual",     score: 5, summary: "Be concise..."},
-            { category: "audio",      score: 5, summary: "Be concise..."},
-            { category: "gameplay",   score: 5, summary: "Be concise..."},
-            { category: "quality",    score: 5, summary: "Be concise..."},
-            { category: "experience", score: 5, summary: "Be concise..."},
-          ],
-          summary: {
-            blurb: "",
-            pros: "",
-            cons: "",
-          },
-        };
+  let reviewData = ((review) => {
+    return state.review
+      ? state.review
+      : new ReviewModel(emptyReview);
+  })(state.review);
 
-        return new ReviewModel(reviewData);
-      }
-    }(this.props.location.review));
-
-    this.state.review = review;
-  }
-
-  generateSlug = (gameName) => {
+  const generateSlug = (gameName) => {
     const regex = /([a-zA-z0-9?']*)[\s\W]{1,2}/gi,
           parts = gameName.split(regex);
 
@@ -62,25 +61,7 @@ class AdminReviewForm extends React.Component {
     return slug;
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
-    let review = this.state.review;
-    let totalScore = 0;
-
-    for (let i=0; i<5; i++) {
-      totalScore += parseInt(review.rating[i].score, 10);
-    }
-
-    if (review.rating[review.rating.length-1].totalScore) {
-      review.rating[review.rating.length-1].totalScore = totalScore;
-      ReviewModel.update(this.state.review);
-    } else {
-      review.rating.push({ totalScore: totalScore });
-      ReviewModel.create(this.state.review);
-    }
-  }
-
-  getIndexForCategory = (categoryName) => {
+  const getIndexForCategory = (categoryName) => {
     let index;
     switch (categoryName) {
       case 'visual':
@@ -104,33 +85,48 @@ class AdminReviewForm extends React.Component {
     return index;
   }
 
-  handleGameNameChange = (e) => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    let review = reviewData;
+    let totalScore = 0;
 
-    const slug = this.generateSlug(e.target.value);
-    let review = this.state.review;
-    review.slug = slug;
+    for (let i=0; i<5; i++) {
+      totalScore += parseInt(review.rating[i].score, 10);
+    }
 
-    this.setState({ review: review });
-
-    this.handleSummaryChange(e);
+    if (review.rating[review.rating.length-1].totalScore) {
+      review.rating[review.rating.length-1].totalScore = totalScore;
+      ReviewModel.update(reviewData);
+    } else {
+      review.rating.push({ totalScore: totalScore });
+      ReviewModel.create(reviewData);
+    }
   }
 
-  handleSummaryChange = (e) => {
-    const [ key, val ] = e.target.name.split('.');
+  const handleGameNameChange = (e) => {
+    const slug = generateSlug(e.target.value);
+    let review = reviewData;
+    review.slug = slug;
+    reviewData = review
+
+    handleSummaryChange(e);
+  }
+
+  const handleSummaryChange = (e) => {
+    const [key, val] = e.target.name.split('.');
     const newVal = e.target.value;
 
-    let review = this.state.review;
+    let review = reviewData;
     review[key][val] = newVal;
-
-    this.setState({ review: review });
+    reviewData = review;
   }
 
-  handleRatingChange = (e) => {
+  const handleRatingChange = (e) => {
     const [ category, section ] = e.target.name.split('.');
     const newVal = e.target.value;
 
-    const index = this.getIndexForCategory(category);
-    let review = this.state.review;
+    const index = getIndexForCategory(category);
+    let review = reviewData;
 
     switch (section) {
       case 'score':
@@ -147,33 +143,33 @@ class AdminReviewForm extends React.Component {
         return;
     }
 
-    this.setState({ review: review });
+    reviewData = review;
   }
 
-  handleDraftChange = (e) => {
-    let review = this.state.review;
+  const handleDraftChange = (e) => {
+    let review = reviewData;
     const isDraft = !review.isDraft;
     review.isDraft = isDraft;
-    this.setState({ review: review });
+    reviewData = review;
   }
 
-  handlePlatformChange(e) {
+  const handlePlatformChange = (e) => {
     const platform = e.target.value;
-    let review = this.state.review;
+    let review = reviewData;
     review.game.platforms[0] = platform;
-    this.setState({ review: review });
+    reviewData = review;
   }
 
-  displayCTAs() {
+  const displayCTAs = (review) => {
     return(
       <div className="cta-container">
         <div className="checkboxContainer">
-          <input type="checkbox" 
+          <input type="checkbox"
             className="checkbox"
-            name="isDraft" 
-            id="isDraft" 
-            value={ this.state.review.isDraft }
-            checked={ this.state.review.isDraft ? "checked" : undefined }
+            name="isDraft"
+            id="isDraft"
+            value={ review.isDraft }
+            checked={ review.isDraft ? "checked" : undefined }
             onChange={ e => this.handleDraftChange(e) }
           />
           <label htmlFor="isDraft">this is a draft</label>
@@ -183,71 +179,72 @@ class AdminReviewForm extends React.Component {
     );
   }
 
-  displayForm() {
+  const displayForm = (review) => {
     return(
       <div>
-        <Link className="backButton" to={{
-          pathname: '/admin/index',
-          state: { isLoggedIn: true }
-        }}>&larr; back to reviews</Link>
-        <form className="createReviewForm" onSubmit={ e => this.handleSubmit(e) }>
+        <Link
+          className="backButton"
+          to='/admin/index'
+          state={{ isLoggedIn: true }}
+        >&larr; back to reviews</Link>
+        <form className="createReviewForm" onSubmit={ e => handleSubmit(e) }>
           <section className="gameMeta">
             <div className="createReviewForm__block">
               <label htmlFor="gameName">Game name</label>
-              <input type="text" name="game.name" id="gameName" 
-                placeholder={ this.state.review.game.name }
-                defaultValue={ this.state.review.game.name }
-                onChange={ e => this.handleGameNameChange(e) }
+              <input type="text" name="game.name" id="gameName"
+                placeholder={ review.game.name }
+                defaultValue={ review.game.name }
+                onChange={ e => handleGameNameChange(e) }
               />
-              <input type="hidden" name="slug" id="slug" defaultValue={ this.state.review.slug } />
-              { this.state.review.slug
-                ? <p className="slug"><span>slug: /</span>{ this.state.review.slug }</p>
+              <input type="hidden" name="slug" id="slug" defaultValue={ review.slug } />
+              { review.slug
+                ? <p className="slug"><span>slug: /</span>{ review.slug }</p>
                 : null
               }
             </div>
 
             <div className="createReviewForm__block">
               <label htmlFor="coverImgUrl">Cover image url</label>
-              <input type="text" name="game.cover_url" id="coverImgUrl" 
-                placeholder={ this.state.review.game.cover_url }
-                defaultValue={ this.state.review.game.cover_url }
-                onChange={ e => this.handleSummaryChange(e) }
+              <input type="text" name="game.cover_url" id="coverImgUrl"
+                placeholder={ review.game.cover_url }
+                defaultValue={ review.game.cover_url }
+                onChange={ e => handleSummaryChange(e) }
               />
             </div>
 
             <div className="createReviewForm__block">
               <label htmlFor="platforms">Platforms</label>
               <input type="text" name="game.platforms" id="platforms"
-                placeholder={ this.state.review.game.platforms }
-                defaultValue={ this.state.review.game.platforms }
-                onChange={ e => this.handlePlatformChange(e) }
+                placeholder={ review.game.platforms }
+                defaultValue={ review.game.platforms }
+                onChange={ e => handlePlatformChange(e) }
               />
             </div>
 
             <div className="createReviewForm__block">
               <label htmlFor="blurb">Summary</label>
               <textarea type="text" name="summary.blurb" id="blurb"
-                placeholder={ this.state.review.summary.blurb }
-                defaultValue={ this.state.review.summary.blurb ? this.state.review.summary.blurb : "" }
-                onChange={ e => this.handleSummaryChange(e) }
+                placeholder={ review.summary.blurb }
+                defaultValue={ review.summary.blurb ? review.summary.blurb : "" }
+                onChange={ e => handleSummaryChange(e) }
               />
             </div>
 
             <div className="createReviewForm__block">
               <label htmlFor="pros">Pros (Buy if)</label>
               <textarea type="text" name="summary.pros" id="pros"
-                placeholder={ this.state.review.summary.pros }
-                defaultValue={ this.state.review.summary.pros ? this.state.review.summary.pros : "" }
-                onChange={ e => this.handleSummaryChange(e) }
+                placeholder={ review.summary.pros }
+                defaultValue={ review.summary.pros ? review.summary.pros : "" }
+                onChange={ e => handleSummaryChange(e) }
               />
             </div>
 
             <div className="createReviewForm__block">
               <label htmlFor="cons">Cons (Avoid if)</label>
               <textarea type="text" name="summary.cons" id="cons"
-                placeholder={ this.state.review.summary.cons }
-                defaultValue={ this.state.review.summary.cons ? this.state.review.summary.cons : "" }
-                onChange={ e => this.handleSummaryChange(e) }
+                placeholder={ review.summary.cons }
+                defaultValue={ review.summary.cons ? review.summary.cons : "" }
+                onChange={ e => handleSummaryChange(e) }
               />
             </div>
 
@@ -260,17 +257,17 @@ class AdminReviewForm extends React.Component {
               <div className="createReviewForm__block">
                 <label htmlFor="visualScore">Score</label>
                 <input type="text" name="visual.score" id="visualScore"
-                  placeholder={ this.state.review.rating[0].score }
-                  defaultValue={ this.state.review.rating[0].score }
-                  onChange={ e => this.handleRatingChange(e) }
+                  placeholder={ review.rating[0].score }
+                  defaultValue={ review.rating[0].score }
+                  onChange={ e => handleRatingChange(e) }
                 />
               </div>
               <div className="createReviewForm__block">
                 <label htmlFor="visualSummary">Summary</label>
                 <textarea name="visual.summary" id="visualSummary"
-                  placeholder={ this.state.review.rating[0].summary }
-                  defaultValue={ this.state.review.rating[0].summary }
-                  onChange={ e => this.handleRatingChange(e) }
+                  placeholder={ review.rating[0].summary }
+                  defaultValue={ review.rating[0].summary }
+                  onChange={ e => handleRatingChange(e) }
                 />
               </div>
             </div>
@@ -279,17 +276,17 @@ class AdminReviewForm extends React.Component {
               <div className="createReviewForm__block">
                 <label htmlFor="audioScore">Score</label>
                 <input type="text" name="audio.score" id="audioScore"
-                  placeholder={ this.state.review.rating[1].score }
-                  defaultValue={ this.state.review.rating[1].score }
-                  onChange={ e => this.handleRatingChange(e) }
+                  placeholder={ review.rating[1].score }
+                  defaultValue={ review.rating[1].score }
+                  onChange={ e => handleRatingChange(e) }
                 />
               </div>
               <div className="createReviewForm__block">
                 <label htmlFor="audioSummary">Summary</label>
                 <textarea name="audio.summary" id="audioSummary"
-                  placeholder={ this.state.review.rating[1].summary }
-                  defaultValue={ this.state.review.rating[1].summary }
-                  onChange={ e => this.handleRatingChange(e) }
+                  placeholder={ review.rating[1].summary }
+                  defaultValue={ review.rating[1].summary }
+                  onChange={ e => handleRatingChange(e) }
                 />
               </div>
             </div>
@@ -298,17 +295,17 @@ class AdminReviewForm extends React.Component {
               <div className="createReviewForm__block">
                 <label htmlFor="gameplayScore">Score</label>
                 <input type="text" name="gameplay.score" id="gameplayScore"
-                  placeholder={ this.state.review.rating[2].score }
-                  defaultValue={ this.state.review.rating[2].score }
-                  onChange={ e => this.handleRatingChange(e) }
+                  placeholder={ review.rating[2].score }
+                  defaultValue={ review.rating[2].score }
+                  onChange={ e => handleRatingChange(e) }
                 />
               </div>
               <div className="createReviewForm__block">
                 <label htmlFor="gameplaySummary">Summary</label>
-                <textarea name="gameplay.summary" id="gameplaySummary" 
-                  placeholder={ this.state.review.rating[2].summary }
-                  defaultValue={ this.state.review.rating[2].summary }
-                  onChange={ e => this.handleRatingChange(e) }
+                <textarea name="gameplay.summary" id="gameplaySummary"
+                  placeholder={ review.rating[2].summary }
+                  defaultValue={ review.rating[2].summary }
+                  onChange={ e => handleRatingChange(e) }
                 />
               </div>
             </div>
@@ -316,18 +313,18 @@ class AdminReviewForm extends React.Component {
               <h4>Quality</h4>
               <div className="createReviewForm__block">
                 <label htmlFor="qualityScore">Score</label>
-                <input type="text" name="quality.score" id="qualityScore" 
-                  placeholder={ this.state.review.rating[3].score }
-                  defaultValue={ this.state.review.rating[3].score }
-                  onChange={ e => this.handleRatingChange(e) }
+                <input type="text" name="quality.score" id="qualityScore"
+                  placeholder={ review.rating[3].score }
+                  defaultValue={ review.rating[3].score }
+                  onChange={ e => handleRatingChange(e) }
                 />
               </div>
               <div className="createReviewForm__block">
                 <label htmlFor="qualitySummary">Summary</label>
                 <textarea name="quality.summary" id="qualitySummary"
-                  placeholder={ this.state.review.rating[3].summary }
-                  defaultValue={ this.state.review.rating[3].summary }
-                  onChange={ e => this.handleRatingChange(e) }
+                  placeholder={ review.rating[3].summary }
+                  defaultValue={ review.rating[3].summary }
+                  onChange={ e => handleRatingChange(e) }
                 >
                 </textarea>
               </div>
@@ -336,18 +333,18 @@ class AdminReviewForm extends React.Component {
               <h4>Experience</h4>
               <div className="createReviewForm__block">
                 <label htmlFor="experienceScore">Score</label>
-                <input type="text" name="experience.score" id="experienceScore" 
-                  placeholder={ this.state.review.rating[4].score }
-                  defaultValue={ this.state.review.rating[4].score }
-                  onChange={ e => this.handleRatingChange(e) }
+                <input type="text" name="experience.score" id="experienceScore"
+                  placeholder={ review.rating[4].score }
+                  defaultValue={ review.rating[4].score }
+                  onChange={ e => handleRatingChange(e) }
                 />
               </div>
               <div className="createReviewForm__block">
                 <label htmlFor="experienceSummary">Summary</label>
                 <textarea name="experience.summary" id="experienceSummary"
-                  placeholder={ this.state.review.rating[4].summary }
-                  defaultValue={ this.state.review.rating[4].summary }
-                  onChange={ e => this.handleRatingChange(e) }
+                  placeholder={ review.rating[4].summary }
+                  defaultValue={ review.rating[4].summary }
+                  onChange={ e => handleRatingChange(e) }
                 >
                 </textarea>
               </div>
@@ -355,25 +352,21 @@ class AdminReviewForm extends React.Component {
           </section>
 
           <div className="cta-wrapper">
-            { this.displayCTAs() }
+            { displayCTAs(review) }
           </div>
         </form>
       </div>
     )
   }
 
-  render() {
-    const { isLoggedIn } = this.props.location.state || { };
-    return(
-      <div className="">
-        { 
-          !isLoggedIn
-            ? <Redirect to='/admin' />
-            : this.displayForm() 
-        }
-      </div>
-    )
-  }
+  return (
+    <>
+      { !isLoggedIn
+          ? navigate('/admin')
+          : displayForm(reviewData)
+      }
+    </>
+  )
 }
 
 export default AdminReviewForm;

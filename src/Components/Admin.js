@@ -1,63 +1,44 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { Component, useState } from 'react';
+//import { Redirect } from 'react-router-dom';
 
+import AdminIndex from './AdminIndex';
 import AdminLogInForm from './AdminLogInForm';
 import AdminFeedbackBanner from './AdminFeedbackBanner';
 
 import '../css/admin.css';
 
-class Admin extends Component {
-  constructor(props) {
-    super(props);
+const Admin = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [submitResult, setSubmitResult] = useState(null);
 
-    this.state = {
-      isLoggedIn: false,
-    }
-  }
-
-  handleAdminLogInSubmit = (e) => {
+  const handleAdminLogInSubmit = (e) => {
     e.preventDefault();
 
     if ((process.env.REACT_APP_ADMIN_USER === e.target.username.value) &&
       (process.env.REACT_APP_ADMIN_PASSWORD === e.target.password.value)) {
-      this.setState({
-        isLoggedIn: true,
-      });
+      setIsLoggedIn(true);
     } else {
       alert("Credentials incorrect, try again");
     }
   }
 
-  displayPostFeedback = (success) => {
-    this.setState({
-      submitResult: {
-        success: success,
-      },
-    });
-  }
-
-  render() {
-    return(
-      <div className="adminWrapper">
-        {
-          this.state.submitResult
-            ? <AdminFeedbackBanner success={ this.state.submitResult.success } />
-            : null
-        }
-        <h2 className="adminWrapper__heading">Admin</h2>
-        {
-          this.state.isLoggedIn 
-            ? <Redirect to={{
-                pathname:'/admin/index',
-                state: { isLoggedIn: this.state.isLoggedIn },
-              }}/>
-            : <AdminLogInForm 
-                onSubmit={ this.handleAdminLogInSubmit }
-              /> 
-        }
-      </div>
-    )
-  }
+  return(
+    <div className="adminWrapper">
+      {
+        submitResult
+          ? <AdminFeedbackBanner success={ submitResult } />
+          : null
+      }
+      <h2 className="adminWrapper__heading">Admin</h2>
+      {
+        isLoggedIn
+          ? <AdminIndex isLoggedIn={isLoggedIn} />
+          : <AdminLogInForm
+              onSubmit={ handleAdminLogInSubmit }
+            />
+      }
+    </div>
+  )
 }
 
 export default Admin;

@@ -1,10 +1,7 @@
-import * as firebase from 'firebase';
-
-import { auth } from './firebase';
-import { db } from './firebase';
+import firebase from './firebase';
+import { firestore as db } from './firebase';
 
 export {
   firebase,
-  auth,
   db,
 }
