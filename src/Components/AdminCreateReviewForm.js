@@ -15,6 +15,8 @@ const AdminReviewForm = () => {
   const navigate = useNavigate();
   const { slug } = useParams();
   const { state } = useLocation();
+  const [ checkboxChecked, setCheckboxChecked] = useState();
+
   const isLoggedIn = state.isLoggedIn;
 
   let emptyReview = {
@@ -151,6 +153,7 @@ const AdminReviewForm = () => {
     const isDraft = !review.isDraft;
     review.isDraft = isDraft;
     reviewData = review;
+    setCheckboxChecked(!reviewData.isDraft);
   }
 
   const handlePlatformChange = (e) => {
@@ -169,10 +172,9 @@ const AdminReviewForm = () => {
             name="isDraft"
             id="isDraft"
             value={ review.isDraft }
-            checked={ review.isDraft ? "checked" : undefined }
-            onChange={ e => this.handleDraftChange(e) }
+            onChange={ e => handleDraftChange(e) }
           />
-          <label htmlFor="isDraft">this is a draft</label>
+          <label htmlFor="isDraft">draft?</label>
         </div>
         <button className="cta-btn" name="save">Save</button>
       </div>
