@@ -1,12 +1,75 @@
-.gameTiles {
+.reviews-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 0 6px;
   justify-items: center;
 }
 
+.sortSelector {
+  align-items: center;
+  display: flex;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.sortBtns {
+  display: flex;
+  flex-grow: 1;
+}
+
+.sortBtn {
+  border-radius: 0;
+  border: none;
+  background: #444;
+  letter-spacing: 0;
+  padding: 0.25rem 1rem;
+  margin-right: 0.375rem;
+}
+
+.sortBtn.active {
+  background: #fff;
+  border: none;
+  color: #333;
+}
+
+.sortBtn:first-child { }
+
+.sortBtn:last-child {
+  margin-right: 0;
+}
+
+.sortBtn,
+.sortLabel {
+  font-size: 1rem;
+}
+
+.sortLabel {
+  display: none;
+  margin-right: 0.5rem;
+  width: auto;
+}
+
 @media (max-width: 374px) {
   .gameTiles {
     display: block;
+  }
+}
+
+@media (min-width: 494px) {
+  .sortSelector {
+    justify-content: flex-end;
+  }
+
+  .sortLabel {
+    display: initial;
+  }
+
+  .sortBtn,
+  .sortBtns {
+    width: auto;
+  }
+
+  .sortBtns {
+    flex-grow: 0;
   }
 }
