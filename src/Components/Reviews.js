@@ -5,40 +5,54 @@ import React, {
 import ReviewModel from '../Models/Review';
 import GameTile from './GameTile';
 import '../css/reviews.css';
+import { useSearchParams } from 'react-router-dom';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState(null);
   const [sort, setSort] = useState('date-desc')
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  useEffect(() => {
-    const getReviews = async () => {
-      const reviews = await ReviewModel.getAllLive();
-      setReviews(reviews);
-    }
+  const sortReviewsByDate = (reviews) => (
+    [...reviews].sort((a, b) => {
+      return b.createdAt - a.createdAt
+    })
+  )
 
-    getReviews()
-      .catch(console.error);
-  }, []);
+  const sortReviewsByScore = (reviews) => (
+    [...reviews].sort((a,b) => {
+      return b.rating[5].totalScore - a.rating[5].totalScore
+    })
+  )
 
   const handleSortBtnPress = (sort) => {
     setSort(sort)
-
-    let sorted = []
-
-    if (sort==='date-desc') {
-      sorted = [...reviews].sort((a, b) => {
-        return b.createdAt - a.createdAt
-      })
-    }
-
-    if (sort==='score-desc') {
-      sorted = [...reviews].sort((a,b) => {
-        return b.rating[5].totalScore - a.rating[5].totalScore
-      })
-    }
-
-    setReviews(sorted)
+    if (sort==='date-desc') setSearchParams({ sort: 'date-desc' })
+    if (sort==='score-desc') setSearchParams({ sort: 'score-desc' })
   }
+
+  useEffect(() => {
+    if (!reviews) {
+      const getReviews = async () => {
+        console.log('fetching data')
+        const reviews = await ReviewModel.getAllLive();
+        setReviews(reviews);
+      }
+
+      getReviews()
+        .catch(console.error);
+    }
+  }, [reviews]);
+
+  useEffect(() => {
+    if (reviews) {
+      let sorted = []
+
+      if (sort === 'date-desc') sorted = sortReviewsByDate(reviews)
+      if (sort === 'score-desc') sorted = sortReviewsByScore(reviews)
+
+      setReviews(sorted)
+    }
+  }, [searchParams])
 
   return (
     <>
