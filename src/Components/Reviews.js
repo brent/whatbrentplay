@@ -33,7 +33,6 @@ const Reviews = () => {
   useEffect(() => {
     if (!reviews) {
       const getReviews = async () => {
-        console.log('fetching data')
         const reviews = await ReviewModel.getAllLive();
         setReviews(reviews);
         setSort(searchParams.get('sort') || 'date-desc')
