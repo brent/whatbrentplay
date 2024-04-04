@@ -14,7 +14,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "upload": "rsync -vLrtPz --stats build/ brent@digital-ocean-box:/var/www/byte-sized-reviews"
+    "upload": "rsync -vLrtPzhh --stats build/ brent@digital-ocean-box:/var/www/whatbrentplay.com"
   },
   "browserslist": {
     "production": [
