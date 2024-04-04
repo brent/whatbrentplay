@@ -36,6 +36,7 @@ const Reviews = () => {
         console.log('fetching data')
         const reviews = await ReviewModel.getAllLive();
         setReviews(reviews);
+        setSort(searchParams.get('sort') || 'date-desc')
       }
 
       getReviews()
@@ -52,7 +53,7 @@ const Reviews = () => {
 
       setReviews(sorted)
     }
-  }, [searchParams])
+  }, [sort])
 
   return (
     <>
