@@ -60,7 +60,10 @@ const Reviews = () => {
       { reviews
         ? (
           <>
-            <SortSelector onClick={handleSortBtnPress}/>
+            <SortSelector
+              onClick={handleSortBtnPress}
+              defaultSelect={sort}
+            />
             <ReviewsGrid reviews={reviews} />
           </>
         )
@@ -90,8 +93,8 @@ const SortBtn = ({ label, onClick, isActive}) => {
   )
 }
 
-const SortSelector = ({ onClick }) => {
-  const [activeBtn, setActiveBtn] = useState('date-desc')
+const SortSelector = ({ onClick, defaultSelect='date-desc' }) => {
+  const [activeBtn, setActiveBtn] = useState(defaultSelect)
 
   return (
     <div className='sortSelector'>
