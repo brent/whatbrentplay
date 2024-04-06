@@ -1,8 +1,33 @@
-.reviews-grid {
+.reviews-grid,
+.scoreGroupReviews {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 0 6px;
   justify-items: center;
+}
+
+.scoreGroupHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.scoreGroup {
+  margin-bottom: 4rem;
+}
+
+.scoreBigNum {
+  color: #fff;
+  font-family: Merriweather, serif;
+  font-size: 3rem;
+  padding-right: 0.25rem;
+}
+
+.scoreGroupTotal {
+  font-size: 1rem;
+  font-weight: 300;
 }
 
 .sortSelector {
