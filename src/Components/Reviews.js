@@ -6,9 +6,11 @@ import ReviewModel from '../Models/Review';
 import GameTile from './GameTile';
 import '../css/reviews.css';
 import { useSearchParams } from 'react-router-dom';
+import Review from '../Models/Review';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState(null);
+  const [groupedReviews, setGroupedReviews] = useState(null)
   const [sort, setSort] = useState('date-desc')
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -24,6 +26,28 @@ const Reviews = () => {
     })
   )
 
+  const sortReviewsByScoreGroups = (reviews) => {
+    const reviewsMap = new Map()
+
+    reviews.forEach((review) => {
+      if (reviewsMap.has(review.rating[5].totalScore)) {
+        let existing = reviewsMap.get(review.rating[5].totalScore)
+        existing.push(review)
+        reviewsMap.set(review.rating[5].totalScore, existing)
+      } else {
+        reviewsMap.set(review.rating[5].totalScore, [review])
+      }
+    })
+
+    const sortedKeys = Array.from(reviewsMap.keys()).sort((a,b) => b - a)
+    const sortedMap = new Map()
+    sortedKeys.forEach((key) => {
+      sortedMap.set(key, reviewsMap.get(key))
+    })
+
+    return sortedMap
+  }
+
   const handleSortBtnPress = (sort) => {
     setSort(sort)
     if (sort==='date-desc') setSearchParams({ sort: 'date-desc' })
@@ -31,10 +55,11 @@ const Reviews = () => {
   }
 
   useEffect(() => {
-    if (!reviews) {
+    if (reviews === null) {
       const getReviews = async () => {
         const reviews = await ReviewModel.getAllLive();
-        setReviews(reviews);
+        setReviews(sortReviewsByDate(reviews));
+        setGroupedReviews(sortReviewsByScoreGroups(reviews));
         setSort(searchParams.get('sort') || 'date-desc')
       }
 
@@ -45,14 +70,10 @@ const Reviews = () => {
 
   useEffect(() => {
     if (reviews) {
-      let sorted = []
-
-      if (sort === 'date-desc') sorted = sortReviewsByDate(reviews)
-      if (sort === 'score-desc') sorted = sortReviewsByScore(reviews)
-
-      setReviews(sorted)
+      if (searchParams === 'date-desc') sort = 'date-desc'
+      if (searchParams === 'score-desc') sort = 'score-desc'
     }
-  }, [sort])
+  }, [searchParams])
 
   return (
     <>
@@ -63,7 +84,11 @@ const Reviews = () => {
               onClick={handleSortBtnPress}
               defaultSelect={sort}
             />
-            <ReviewsGrid reviews={reviews} />
+            <ReviewsDisplay
+              reviews={reviews}
+              groupedReviews={groupedReviews}
+              sort={sort}
+            />
           </>
         )
         : null
@@ -72,15 +97,71 @@ const Reviews = () => {
   )
 }
 
+const ReviewsDisplay = ({ reviews, groupedReviews , sort}) => {
+  const renderReviews = (reviews, groupedReviews, sort) => {
+    if (sort==='date-desc') {
+      return <ReviewsGrid reviews={reviews} />
+    }
+
+    if (sort==='score-desc') {
+      console.log('groupedReviews', groupedReviews)
+      return <ReviewsList reviews={groupedReviews} />
+    }
+  }
+
+  return renderReviews(reviews, groupedReviews, sort)
+}
+
 const ReviewsGrid = ({ reviews }) => (
-  <ul className='reviews reviews-grid'>
+  <ol className='reviews reviews-grid'>
     { reviews.map((review) => (
       <li key={review.id} className='gameTile'>
         <GameTile review={review} />
       </li>
     ))}
-  </ul>
+  </ol>
 )
+
+const ReviewsList = ({ reviews }) => {
+  const renderSections = (reviews) => {
+    return (
+      <>
+        { [...reviews].map((entry) => (
+          <li key={entry[0]} className='scoreGroup'>
+            <div className='scoreGroupHeader'>
+              <h2 className='scoreLabel'>
+                <span className="scoreBigNum">{entry[0]}</span>
+                <span className="scoreSmallNum">/ 25</span>
+              </h2>
+              <p className="scoreGroupTotal">{entry[1].length} game{entry[1].length > 1 ? 's' : null}</p>
+            </div>
+            <ol className='scoreGroupReviews'>
+              {renderListSection(entry[1])}
+            </ol>
+          </li>
+        ))}
+      </>
+    )
+  }
+
+  const renderListSection = (reviews) => {
+    return (
+      <>
+        { reviews.map((review) => (
+          <li key={review.id} className='gameTile'>
+            <GameTile review={review} />
+          </li>
+        ))}
+      </>
+    )
+  }
+
+  return (
+    <ol className='reviews reviews-list'>
+      { renderSections(reviews) }
+    </ol>
+  )
+}
 
 const SortBtn = ({ label, onClick, isActive}) => {
   return (
